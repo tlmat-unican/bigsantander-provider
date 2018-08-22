@@ -2,6 +2,7 @@ package es.unican.tlmat.smartsantander.big_iot.provider;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bigiot.lib.ProviderSpark;
@@ -62,10 +63,13 @@ public class Provider {
 
   // Unregister the Registered Offerings from the Marketplace
   public void unregisterOfferings() {
-    registeredOfferings.forEach(offering -> {
-      providerSpark.deregister(offering);
-      registeredOfferings.remove(offering);
-    });
+    Iterator<OfferingId> it = registeredOfferings.iterator();
+    while (it.hasNext()) {
+      OfferingId offeringId = it.next(); // must be called before you can call i.remove()
+      providerSpark.deregister(offeringId);
+      it.remove();
+    }
+
   }
 
   // Terminate the Spark Provider instance
