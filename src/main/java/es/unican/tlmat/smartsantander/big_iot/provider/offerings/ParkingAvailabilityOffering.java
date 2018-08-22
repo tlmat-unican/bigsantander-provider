@@ -39,7 +39,7 @@ public class ParkingAvailabilityOffering extends GenericOffering {
         .addOutputData("timestamp", "schema:dateTime", ValueType.DATETIME)
         .addOutputData("latitude", "schema:latitude", ValueType.NUMBER)
         .addOutputData("longitude", "schema:longitude", ValueType.NUMBER)
-        .addOutputData("status", "mobility:ParkingSpaceStatus", ValueType.BOOLEAN)
+        .addOutputData("status", "mobility:parkingSpaceStatus", ValueType.TEXT)
         .withPrice(Euros.amount(0.001)).withPricingModel(PricingModel.PER_ACCESS)
         .withLicenseType(LicenseType.OPEN_DATA_LICENSE);
   }
