@@ -23,6 +23,8 @@ public class App {
 
     Provider smsProvider = new Provider(prop);
 
+    smsProvider.start();
+
     smsProvider.registerOffering(ParkingAvailabilityOffering.getInstance());
 
     // Run until user presses the ENTER key
