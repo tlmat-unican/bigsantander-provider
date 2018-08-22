@@ -29,6 +29,7 @@ public class App {
     System.out.println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
     Scanner keyboard = new Scanner(System.in);
     keyboard.nextLine();
+    keyboard.close();
 
     smsProvider.stop();
 
@@ -42,7 +43,7 @@ public class App {
 //
 //        // Terminate the Provider instance
 //        provider.terminate();
-//        
+//
 //        try {
 //          mainThread.join();
 //        } catch (InterruptedException e) {
