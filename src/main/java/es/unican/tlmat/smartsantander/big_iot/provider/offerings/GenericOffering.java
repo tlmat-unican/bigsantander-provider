@@ -3,6 +3,7 @@ package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.invoke.MethodHandles;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
@@ -11,6 +12,8 @@ import org.eclipse.bigiot.lib.handlers.AccessRequestHandler;
 import org.eclipse.bigiot.lib.offering.OfferingDescription;
 import org.eclipse.bigiot.lib.offering.RegistrableOfferingDescription;
 import org.eclipse.bigiot.lib.serverwrapper.BigIotHttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +23,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public abstract class GenericOffering implements AccessRequestHandler {
+
+  private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   private static String USER_AGENT = "BIG IoT/1.0 BigSantander Provider/1.0";
   private static String ORION_HOST = "BASE_URL_ORION/v2/op/query";
@@ -45,6 +50,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
       String jsonString = mapper.writer().writeValueAsString(jsonArray);
       return BigIotHttpResponse.okay().withBody(jsonString).asJsonType();
     } catch (Exception e) {
+      log.error("Ops!", e);
       return BigIotHttpResponse.error().withBody(
           "{ \"error\": \"500\", \"description\": \"Internal server error while retrieving data\"")
           .asJsonType();
@@ -62,6 +68,8 @@ public abstract class GenericOffering implements AccessRequestHandler {
     conn.setDoInput(true);
     conn.setDoOutput(true);
 
+    log.debug("adding headers");
+
     // Add request headers
     conn.setRequestProperty("User-Agent", USER_AGENT);
     conn.setRequestProperty("Content-Type", "application/json");
@@ -73,11 +81,14 @@ public abstract class GenericOffering implements AccessRequestHandler {
     // Meter en finally
     out.flush();
 
+    log.debug("Connection sent");
+
     return conn;
   }
 
   private ArrayNode processHttpResponse(HttpURLConnection conn) throws IOException {
     int responseCode = conn.getResponseCode();
+    log.debug("Response code" + responseCode);
     if (responseCode != HttpURLConnection.HTTP_OK) {
       // In case we want to capture the error message from the server
       // Orion returns a JSON document:
@@ -94,6 +105,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
     // new InputStreamReader(myURLConnection.getInputStream()))) {
     // reader.lines().forEach(System.out::println);
     // }
+    log.debug("Start parsing output");
     try {
       InputStream in = conn.getInputStream();
       final JsonNode fiwareNodes = mapper.reader().readTree(in);
