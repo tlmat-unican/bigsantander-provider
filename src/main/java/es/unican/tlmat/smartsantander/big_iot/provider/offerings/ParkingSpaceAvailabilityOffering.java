@@ -1,6 +1,7 @@
 package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,6 +62,9 @@ public class ParkingSpaceAvailabilityOffering extends GenericOffering {
           new SimpleEntry<>(OutputData.LONGITUDE.toString(), "/location/coordinates/0"),
           new SimpleEntry<>(OutputData.LATITUDE.toString(), "/location/coordinates/1"))
       .collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+
+  private static final Collection<String> FIWARE_FIELDS = GenericOffering
+      .getParentFiwareFieldFromJsonPath(BIGIOT_TO_FIWARE_JSON_PATH.values());
 
   private static ParkingSpaceAvailabilityOffering offering = null;
 
@@ -136,5 +140,10 @@ public class ParkingSpaceAvailabilityOffering extends GenericOffering {
 //        .put("status", status).put("timestamp", dateModified);
 
     return rootNode;
+  }
+
+  @Override
+  public Collection<String> getFiwareFields() {
+    return FIWARE_FIELDS;
   }
 }

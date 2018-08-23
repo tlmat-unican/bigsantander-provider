@@ -1,6 +1,6 @@
 package es.unican.tlmat.smartsantander.big_iot.provider.fiware;
 
-import java.util.Arrays;
+import es.unican.tlmat.smartsantander.big_iot.provider.offerings.BikeSharingStationsOffering;
 
 public class BikeHireDockingStationQuery extends Query {
 
@@ -22,8 +22,7 @@ public class BikeHireDockingStationQuery extends Query {
     entity.type = "BikeHireDockingStation";
 
     BikeHireDockingStationQuery query = new BikeHireDockingStationQuery(entity);
-    // TODO: Get attributes from offering outputdata mapping
-    query.addAttributes(Arrays.asList("id", "location", "dateModified", "availableBikeNumber", "freeSlotNumber"));
+    query.addAttributes(BikeSharingStationsOffering.getInstance().getFiwareFields());
 
     return query;
   }

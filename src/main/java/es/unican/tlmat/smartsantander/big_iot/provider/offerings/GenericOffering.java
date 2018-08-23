@@ -6,7 +6,9 @@ import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.bigiot.lib.handlers.AccessRequestHandler;
 import org.eclipse.bigiot.lib.offering.OfferingDescription;
@@ -38,6 +40,12 @@ public abstract class GenericOffering implements AccessRequestHandler {
   public abstract Query createFiwareQuery(Map<String, Object> inputData);
 
   public abstract ObjectNode transformFiwareToBigiot(ObjectNode src);
+
+  public abstract Collection<String> getFiwareFields();
+
+  protected static Collection<String> getParentFiwareFieldFromJsonPath(Collection<String> paths) {
+    return paths.stream().map(v -> v.split("/")[1]).collect(Collectors.toSet());
+  }
 
   @Override
   public BigIotHttpResponse processRequestHandler(OfferingDescription offeringDescription,
