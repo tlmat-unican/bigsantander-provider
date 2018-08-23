@@ -7,7 +7,8 @@ import org.eclipse.bigiot.lib.exceptions.IncompleteOfferingDescriptionException;
 import org.eclipse.bigiot.lib.exceptions.NotRegisteredException;
 import org.eclipse.bigiot.lib.misc.BridgeIotProperties;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.ParkingAvailabilityOffering;
+import es.unican.tlmat.smartsantander.big_iot.provider.offerings.BikeSharingStationsOffering;
+import es.unican.tlmat.smartsantander.big_iot.provider.offerings.ParkingSpaceAvailabilityOffering;
 
 /**
  * Hello world!.
@@ -25,7 +26,8 @@ public class App {
 
     smsProvider.start();
 
-    smsProvider.registerOffering(ParkingAvailabilityOffering.getInstance());
+    smsProvider.registerOffering(ParkingSpaceAvailabilityOffering.getInstance());
+    smsProvider.registerOffering(BikeSharingStationsOffering.getInstance());
 
     // Run until user presses the ENTER key
     System.out.println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
