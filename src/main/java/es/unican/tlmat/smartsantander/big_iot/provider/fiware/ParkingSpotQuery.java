@@ -15,7 +15,7 @@ public class ParkingSpotQuery extends Query {
   public static ParkingSpotQuery create(int id) {
     return create(String.format(":%d$", id));
   }
-  
+
   public static ParkingSpotQuery create(String idPattern) {
     Query.Entity entity = new Query.Entity();
     entity.idPattern = idPattern;
