@@ -7,8 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import org.eclipse.bigiot.lib.handlers.AccessRequestHandler;
 import org.eclipse.bigiot.lib.offering.OfferingDescription;
 import org.eclipse.bigiot.lib.offering.RegistrableOfferingDescription;
@@ -53,11 +51,11 @@ public abstract class GenericOffering implements AccessRequestHandler {
     }
   }
 
-  private HttpsURLConnection makeHttpRequest(Query query) throws Exception {
+  private HttpURLConnection makeHttpRequest(Query query) throws Exception {
     String queryParams = "options=keyValues,count&limit=1000";
     String url = ORION_HOST.concat("?").concat(queryParams);
     URL obj = new URL(url);
-    HttpsURLConnection conn = (HttpsURLConnection) obj.openConnection();
+    HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
     conn.setRequestMethod("POST");
     conn.setReadTimeout(10000);
     conn.setConnectTimeout(15000);
@@ -78,7 +76,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
     return conn;
   }
 
-  private ArrayNode processHttpResponse(HttpsURLConnection conn) throws IOException {
+  private ArrayNode processHttpResponse(HttpURLConnection conn) throws IOException {
     int responseCode = conn.getResponseCode();
     if (responseCode != HttpURLConnection.HTTP_OK) {
       // In case we want to capture the error message from the server
@@ -114,7 +112,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
   }
 
   public ArrayNode sendQuery(Query query) throws Exception {
-    HttpsURLConnection conn = makeHttpRequest(query);
+    HttpURLConnection conn = makeHttpRequest(query);
     return processHttpResponse(conn);
   }
 }
