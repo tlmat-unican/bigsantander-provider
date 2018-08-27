@@ -8,10 +8,10 @@ public enum InputOutputData {
   LATITUDE("latitude", "schema:latitude", ValueType.NUMBER, "/location/coordinates/1"),
   RADIUS("geoRadius", "schema:geoRadius", ValueType.NUMBER, InputOutputData.NULL_PATH),
   TIMESTAMP("timestamp", "schema:geoRadius", ValueType.DATETIME, "/dateModified"),
-  // Parking Space Availability
+  // Parking Space Availability (ParkingSpot)
   PARKING_SPOT_ID("parkingSpotId", "mobility:parkingSpaceOrGroupIdentifier", ValueType.TEXT, "/id"),
   PARKING_SPOT_STATUS("status", "mobility:parkingSpaceStatus", ValueType.TEXT, "/status"),
-  // Bike Sharing Station
+  // Bike Sharing Station (BikeHireDockingStation)
   BIKE_SHARING_STATION_ID(
       "stationId",
       "mobility:bikeSharingStationIdentifier",
@@ -26,7 +26,78 @@ public enum InputOutputData {
       "availableBikeSlotsCount",
       "mobility:numberOfAvailableParkingSlots",
       ValueType.NUMBER,
-      "/freeSlotNumber");
+      "/freeSlotNumber"),
+  // Traffic Conditions (TrafficFlowObserved)
+  TRAFFIC_FLOW_ROAD_SPOT_ID(
+      "roadSpotId",
+      "proposed:roadSpotIdentifier",
+      ValueType.TEXT,
+      "/id"),
+  TRAFFIC_FLOW_OCCUPANCY(
+      "occupation",
+      "proposed:roadOccupationPercentage",
+      ValueType.NUMBER,
+      "/occupancy"),
+  TRAFFIC_FLOW_INTENSITY(
+      "intensity",
+      "proposed:roadIntensity",
+      ValueType.NUMBER,
+      "/intensity"),
+  TRAFFIC_FLOW_LOAD(
+      "occupation",
+      "proposed:roadLoadEstimation",
+      ValueType.NUMBER,
+      "/roadLoad"),
+  // Weather Observed (WeatherObserved, AirQualityObserved)
+  WEATHER_TEMPERATURE(
+      "temperature",
+      "environment:hasAirTemperature",
+      ValueType.NUMBER,
+      "/temperature"),
+  WEATHER_HUMIDITY(
+      "relativeHumidity",
+      "environment:hasHumidity",
+      ValueType.NUMBER,
+      "/relativeHumidity"),
+  WEATHER_WIND_SPEED(
+      "windSpeed",
+      "environment:hasWindSpeed",
+      ValueType.NUMBER,
+      "/windSpeed"),
+  WEATHER_WIND_DIRECTION(
+      "windDirection",
+      "environment:hasWindDirection",
+      ValueType.NUMBER,
+      "/windDirection"),
+  WEATHER_ATMOSPHERIC_PRESSURE(
+      "atmosphericPressure",
+      "environment:hasPressure",
+      ValueType.NUMBER,
+      "/atmosphericPressure"),
+  // Air Pollution Sensor (AirQualityObserved)
+  AIR_POLLUTION_NO2(
+      "NO2",
+      "environment:hasNO2Concentration",
+      ValueType.NUMBER,
+      "/NO2"),
+  AIR_POLLUTION_O3(
+      "O3",
+      "environment:hasO3Concentration",
+      ValueType.NUMBER,
+      "/O3"),
+  // TODO: Fix as not found in FIWARE data models
+  AIR_POLLUTION_DUST(
+      "dust",
+      "environment:hasPMConcentration",
+      ValueType.NUMBER,
+      "/atmosphericPressure"),
+  // Noise sensors (NoiseLevelObserved)
+  NOISE_LEVEL(
+      "noiseLevelInDecibelA",
+      "environment:hasNoiseLevel",
+      ValueType.NUMBER,
+      "/Lp"),
+  NULL("null", "null", ValueType.NUMBER, InputOutputData.NULL_PATH);
 
   private final String name;
   private final String rdfAnnotation;
