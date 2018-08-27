@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.ParkingSpotQuery;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class ParkingSpaceAvailabilityOffering extends GenericOffering {
@@ -12,6 +11,8 @@ public class ParkingSpaceAvailabilityOffering extends GenericOffering {
   private static String DESCRIPTION = "SantanderParkingSpaceAvailabilityOffering";
   private static String NAME = "Santander Parking Space Availability Offering";
   private static String CATEGORY = "urn:big-iot:ParkingSpaceCategory";
+
+  private static String FIWARE_TYPE = "ParkingSpot";
 
   private static List<InputOutputData> INPUT_DATA = Arrays.asList(InputOutputData.PARKING_SPOT_ID,
       InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.RADIUS);
@@ -36,18 +37,15 @@ public class ParkingSpaceAvailabilityOffering extends GenericOffering {
 
   @Override
   protected Query createFiwareQuery(Map<String, Object> inputData) {
-    ParkingSpotQuery query = (inputData.containsKey(InputOutputData.PARKING_SPOT_ID.getName()))
-        ? ParkingSpotQuery.create((String) inputData.get(InputOutputData.PARKING_SPOT_ID.getName()))
-        : ParkingSpotQuery.create();
+    Query query = super.createFiwareQuery(inputData);
 
-    if (inputData.containsKey(InputOutputData.LONGITUDE.getName())
-        && inputData.containsKey(InputOutputData.LATITUDE.getName())
-        && inputData.containsKey(InputOutputData.RADIUS.getName())) {
-      query.withinAreaFilter(
-          Double.parseDouble((String) inputData.get(InputOutputData.LATITUDE.getName())),
-          Double.parseDouble((String) inputData.get(InputOutputData.LONGITUDE.getName())),
-          Integer.parseUnsignedInt((String) inputData.get(InputOutputData.RADIUS.getName())));
-    }
+    Query.Entity entity = new Query.Entity();
+    entity.type = FIWARE_TYPE;
+    entity.idPattern = (inputData.containsKey(InputOutputData.PARKING_SPOT_ID.getName()))
+        ? String.format(":%s$", inputData.get(InputOutputData.PARKING_SPOT_ID.getName()))
+        : ".*";
+
+    query.addEntity(entity);
 
     return query;
   }
