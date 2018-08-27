@@ -108,7 +108,14 @@ public abstract class GenericOffering implements AccessRequestHandler {
   protected ObjectNode convertFiwareToBigiot(final ObjectNode src) {
     ObjectNode rootNode = mapper.createObjectNode();
 
-    getOutputData().forEach(v -> rootNode.set(v.getName(), src.at(v.getFiwareJsonPath())));
+    getOutputData().forEach(v -> {
+      // It includes null value if field doesn't exist
+      // rootNode.set(v.getName(), src.at(v.getFiwareJsonPath()));
+      JsonNode value = src.at(v.getFiwareJsonPath());
+      if (!value.isMissingNode()) {
+        rootNode.set(v.getName(), value);
+      }
+    });
 
     return rootNode;
   }
