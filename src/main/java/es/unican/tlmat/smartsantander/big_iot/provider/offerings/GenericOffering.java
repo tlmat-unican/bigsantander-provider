@@ -47,6 +47,10 @@ public abstract class GenericOffering implements AccessRequestHandler {
     return paths.stream().map(v -> v.split("/")[1]).collect(Collectors.toSet());
   }
 
+  protected static Collection<String> getParentFiwareFieldFromJsonPat(Collection<InputOutputData> io) {
+    return io.stream().map(e -> e.getFiwareJsonPath().split("/")[1]).collect(Collectors.toSet());
+  }
+
   @Override
   public BigIotHttpResponse processRequestHandler(OfferingDescription offeringDescription,
       Map<String, Object> inputData, String subscriberId, String consumerInfo) {
