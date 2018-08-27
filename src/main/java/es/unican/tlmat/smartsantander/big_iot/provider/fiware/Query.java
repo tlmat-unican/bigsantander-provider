@@ -67,7 +67,7 @@ public class Query {
   @JsonProperty("expression")
   Expression expression;
 
-  private Query() {
+  public Query() {
   }
 
   public Query(final Entity e) {

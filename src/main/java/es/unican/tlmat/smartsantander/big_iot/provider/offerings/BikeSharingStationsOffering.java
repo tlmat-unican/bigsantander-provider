@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.BikeHireDockingStationQuery;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class BikeSharingStationsOffering extends GenericOffering {
@@ -12,6 +11,8 @@ public class BikeSharingStationsOffering extends GenericOffering {
   private static String DESCRIPTION = "SantanderBikeSharingStationsOffering";
   private static String NAME = "Santander Bike Sharing Stations Offering";
   private static String CATEGORY = "urn:big-iot:BikeSharingStationCategory";
+
+  private static String FIWARE_TYPE = "BikeHireDockingStation";
 
   private static List<InputOutputData> INPUT_DATA = Arrays.asList(
       InputOutputData.BIKE_SHARING_STATION_ID, InputOutputData.LONGITUDE, InputOutputData.LATITUDE,
@@ -37,19 +38,16 @@ public class BikeSharingStationsOffering extends GenericOffering {
   }
 
   @Override
-  public Query createFiwareQuery(Map<String, Object> inputData) {
-    BikeHireDockingStationQuery query = (inputData.containsKey(InputOutputData.BIKE_SHARING_STATION_ID.toString()))
-        ? BikeHireDockingStationQuery.create((String) inputData.get(InputOutputData.BIKE_SHARING_STATION_ID.toString()))
-        : BikeHireDockingStationQuery.create();
+  protected Query createFiwareQuery(Map<String, Object> inputData) {
+    Query query = super.createFiwareQuery(inputData);
 
-    if (inputData.containsKey(InputOutputData.LONGITUDE.toString())
-        && inputData.containsKey(InputOutputData.LATITUDE.toString())
-        && inputData.containsKey(InputOutputData.RADIUS.toString())) {
-      query.withinAreaFilter(
-          Double.parseDouble((String) inputData.get(InputOutputData.LATITUDE.toString())),
-          Double.parseDouble((String) inputData.get(InputOutputData.LONGITUDE.toString())),
-          Integer.parseUnsignedInt((String) inputData.get(InputOutputData.RADIUS.toString())));
-    }
+    Query.Entity entity = new Query.Entity();
+    entity.type = FIWARE_TYPE;
+    entity.idPattern = (inputData.containsKey(InputOutputData.BIKE_SHARING_STATION_ID.getName()))
+        ? String.format(":%s$", inputData.get(InputOutputData.BIKE_SHARING_STATION_ID.getName()))
+        : ".*";
+
+    query.addEntity(entity);
 
     return query;
   }

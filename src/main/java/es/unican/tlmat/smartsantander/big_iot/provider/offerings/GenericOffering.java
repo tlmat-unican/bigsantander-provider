@@ -88,9 +88,24 @@ public abstract class GenericOffering implements AccessRequestHandler {
     return io.stream().map(e -> e.getFiwareJsonPath().split("/")[1]).collect(Collectors.toSet());
   }
 
-  protected abstract Query createFiwareQuery(Map<String, Object> inputData);
+  protected Query createFiwareQuery(Map<String, Object> inputData) {
+    Query query = new Query();
 
-  protected ObjectNode transformFiwareToBigiot(final ObjectNode src) {
+    query.addAttributes(getFiwareFields());
+
+    if (inputData.containsKey(InputOutputData.LONGITUDE.toString())
+        && inputData.containsKey(InputOutputData.LATITUDE.toString())
+        && inputData.containsKey(InputOutputData.RADIUS.toString())) {
+      query.withinAreaFilter(
+          Double.parseDouble((String) inputData.get(InputOutputData.LATITUDE.toString())),
+          Double.parseDouble((String) inputData.get(InputOutputData.LONGITUDE.toString())),
+          Integer.parseUnsignedInt((String) inputData.get(InputOutputData.RADIUS.toString())));
+    }
+
+    return query;
+  }
+
+  protected ObjectNode convertFiwareToBigiot(final ObjectNode src) {
     ObjectNode rootNode = mapper.createObjectNode();
 
     getOutputData().forEach(v -> rootNode.set(v.getName(), src.at(v.getFiwareJsonPath())));
@@ -112,7 +127,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
       // Process Orion response
       ArrayNode bigiotNodes = mapper.createArrayNode();
       for (final JsonNode node : fiwareNodes) {
-        bigiotNodes.add(transformFiwareToBigiot((ObjectNode) node));
+        bigiotNodes.add(convertFiwareToBigiot((ObjectNode) node));
       }
 
       String jsonString = mapper.writer().writeValueAsString(bigiotNodes);
