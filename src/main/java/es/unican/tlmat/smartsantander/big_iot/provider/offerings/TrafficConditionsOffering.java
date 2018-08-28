@@ -22,10 +22,13 @@ public class TrafficConditionsOffering extends GenericOffering {
       InputOutputData.TRAFFIC_FLOW_INTENSITY, InputOutputData.TRAFFIC_FLOW_LOAD,
       InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.TRAFFIC_FLOW_OCCUPANCY,
+      InputOutputData.TRAFFIC_FLOW_INTENSITY, InputOutputData.TRAFFIC_FLOW_LOAD);
+
   private static TrafficConditionsOffering offering = null;
 
   protected TrafficConditionsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final TrafficConditionsOffering getInstance() {

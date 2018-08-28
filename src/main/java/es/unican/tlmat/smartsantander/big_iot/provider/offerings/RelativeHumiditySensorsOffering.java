@@ -21,10 +21,12 @@ public class RelativeHumiditySensorsOffering extends GenericOffering {
   private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_HUMIDITY,
       InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_HUMIDITY);
+
   private static RelativeHumiditySensorsOffering offering = null;
 
   protected RelativeHumiditySensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final RelativeHumiditySensorsOffering getInstance() {

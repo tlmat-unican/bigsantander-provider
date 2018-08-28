@@ -21,10 +21,12 @@ public class ParkingSpaceAvailabilityOffering extends GenericOffering {
       InputOutputData.PARKING_SPOT_STATUS, InputOutputData.LONGITUDE, InputOutputData.LATITUDE,
       InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.PARKING_SPOT_STATUS);
+
   private static ParkingSpaceAvailabilityOffering offering = null;
 
   protected ParkingSpaceAvailabilityOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final ParkingSpaceAvailabilityOffering getInstance() {

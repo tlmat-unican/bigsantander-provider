@@ -20,10 +20,12 @@ public class NoiseSensorsOffering extends GenericOffering {
   private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(InputOutputData.NOISE_LEVEL,
       InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.NOISE_LEVEL);
+
   private static NoiseSensorsOffering offering = null;
 
   protected NoiseSensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final NoiseSensorsOffering getInstance() {

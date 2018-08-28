@@ -1,7 +1,6 @@
 package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
 
 import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +46,18 @@ public abstract class GenericOffering implements AccessRequestHandler {
 
   private final List<InputOutputData> inputData;
   private final List<InputOutputData> outputData;
+  private final Collection<String> mandatoryOutputData;
   private final Collection<String> fiwareFields;
   private final RegistrableOfferingDescription offeringDescription;
 
   protected GenericOffering(String name, String description, String category,
-      List<InputOutputData> inputData, List<InputOutputData> outputData) {
+      List<InputOutputData> inputData, List<InputOutputData> outputData,
+      List<InputOutputData> mandatoryOutputData) {
 
     this.inputData = inputData;
     this.outputData = outputData;
+    this.mandatoryOutputData = mandatoryOutputData.stream().map(InputOutputData::getName)
+        .collect(Collectors.toSet());
 
     RegistrableOfferingDescriptionChain offeringChain = OfferingDescription
         .createOfferingDescription(description).withName(name).withCategory(category);
@@ -126,7 +129,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
 
   // true if there is any field that is not defaultFields
   // true if a JSON node with data
-  private static boolean checkNotEmptyBigIotValue(final JsonNode node) {
+  private boolean checkNotEmptyBigIotValue(final JsonNode node) {
     Iterable<String> iterable = () -> node.fieldNames();
     // Stream<String> defaultFields = Stream.of("latitude", "longitude", "timestamp", "id");
     // Supplier<Stream<String>> streamSupplier = () -> defaultFields;
@@ -136,8 +139,7 @@ public abstract class GenericOffering implements AccessRequestHandler {
 //    return StreamSupport.stream(iterable.spliterator(), false)
 //        .anyMatch(e -> defaultFields.stream().noneMatch(f -> f.equals(e)));
     return StreamSupport.stream(iterable.spliterator(), false)
-        .anyMatch(e -> !DEFAULT_FIELDS.contains(e));
-
+        .anyMatch(mandatoryOutputData::contains);
   }
 
   @Override
@@ -149,16 +151,15 @@ public abstract class GenericOffering implements AccessRequestHandler {
     Query query = createFiwareQuery(inputData);
 
     try {
-      ArrayNode fiwareNodes = orion.sendQuery(query);
+      ArrayNode fiwareNodes = orion.postQuery(query);
 
       // Process Orion response
       // Can be done using .foreach(newArray::add)
       // Another option for creating a stream
       // Stream<JsonNode> nodes = IntStream.range(0, fiwareNodes.size()).mapToObj(fiwareNodes::get);
       ArrayNode bigiotNodes = StreamSupport.stream(fiwareNodes.spliterator(), true)
-          .map(e -> convertFiwareToBigiot((ObjectNode)e))
-          .filter(e -> checkNotEmptyBigIotValue(e))
-         .collect(CustomCollectors.toArrayNode());
+          .map(e -> convertFiwareToBigiot((ObjectNode) e)).filter(e -> checkNotEmptyBigIotValue(e))
+          .collect(CustomCollectors.toArrayNode());
 
       String jsonString = mapper.writer().writeValueAsString(bigiotNodes);
       return BigIotHttpResponse.okay().withBody(jsonString).asJsonType();

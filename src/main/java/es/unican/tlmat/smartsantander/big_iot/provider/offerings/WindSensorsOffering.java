@@ -22,10 +22,12 @@ public class WindSensorsOffering extends GenericOffering {
       InputOutputData.WEATHER_WIND_SPEED, InputOutputData.WEATHER_WIND_DIRECTION,
       InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_WIND_SPEED, InputOutputData.WEATHER_WIND_DIRECTION);
+
   private static WindSensorsOffering offering = null;
 
   protected WindSensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final WindSensorsOffering getInstance() {

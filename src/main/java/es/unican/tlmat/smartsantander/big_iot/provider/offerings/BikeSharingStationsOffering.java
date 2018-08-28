@@ -23,10 +23,13 @@ public class BikeSharingStationsOffering extends GenericOffering {
       InputOutputData.BIKE_SHARING_STATION_AVAILABLE_SLOTS, InputOutputData.LONGITUDE,
       InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.BIKE_SHARING_STATION_AVAILABLE_BIKES,
+      InputOutputData.BIKE_SHARING_STATION_AVAILABLE_SLOTS);
+
   private static BikeSharingStationsOffering offering = null;
 
   protected BikeSharingStationsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final BikeSharingStationsOffering getInstance() {

@@ -21,10 +21,12 @@ public class TemperatureSensorsOffering extends GenericOffering {
   private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_TEMPERATURE,
       InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
 
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_TEMPERATURE);
+
   private static TemperatureSensorsOffering offering = null;
 
   protected TemperatureSensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA);
+    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
   public static final TemperatureSensorsOffering getInstance() {
