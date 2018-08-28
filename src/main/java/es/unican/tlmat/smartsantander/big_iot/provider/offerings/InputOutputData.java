@@ -4,6 +4,7 @@ import org.eclipse.bigiot.lib.model.BigIotTypes.ValueType;
 
 public enum InputOutputData {
   // Generic
+  ID("id", "schema:id", ValueType.TEXT, "/id"),
   LONGITUDE("longitude", "schema:longitude", ValueType.NUMBER, "/location/coordinates/0"),
   LATITUDE("latitude", "schema:latitude", ValueType.NUMBER, "/location/coordinates/1"),
   RADIUS("geoRadius", "schema:geoRadius", ValueType.NUMBER, InputOutputData.NULL_PATH),
@@ -97,6 +98,32 @@ public enum InputOutputData {
       "environment:hasNoiseLevel",
       ValueType.NUMBER,
       "/Lp"),
+  // Bus Arrival Estimation
+  BUS_STOP_ID(
+      "busStopId",
+      "proposed:hasBusStopId",
+      ValueType.TEXT,
+      "/refBusStop"),
+  BUS_STOP_NAME(
+      "busStopName",
+      "mobility:hasBusStopName",
+      ValueType.TEXT,
+      "/name"),
+  BUS_LINE_ID(
+      "busLineId",
+      "mobility:hasBusLineNumber",
+      ValueType.NUMBER,
+      "/refBusStops"),
+  BUS_LINE_NAME(
+      "busLineName",
+      "proposed:hasBusLineName",
+      ValueType.TEXT,
+      "/name"),
+  BUS_STOP_TIME_TO_ARRIVAL(
+      "busTimeToArrival",
+      "proposed:busTimeToArrival",
+      ValueType.TEXT, // ISO8601 timing format
+      "/remainingTimes/0"),
   NULL("null", "null", ValueType.NUMBER, InputOutputData.NULL_PATH);
 
   private final String name;
