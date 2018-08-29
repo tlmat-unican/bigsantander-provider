@@ -13,37 +13,36 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 //http://whitfin.io/collecting-a-java-8-stream-into-a-jackson-arraynode/
-public class ArrayNodeCollector implements Collector<JsonNode, ArrayNode, ArrayNode> {
+public class ArrayNodeCollector
+    implements Collector<JsonNode, ArrayNode, ArrayNode> {
 
-  private static final ObjectMapper mapper
-          = new ObjectMapper();
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   @Override
   public Supplier<ArrayNode> supplier() {
-      return mapper::createArrayNode;
+    return mapper::createArrayNode;
   }
 
   @Override
   public BiConsumer<ArrayNode, JsonNode> accumulator() {
-      return ArrayNode::add;
+    return ArrayNode::add;
   }
 
   @Override
   public BinaryOperator<ArrayNode> combiner() {
-      return (x, y) -> {
-          x.addAll(y);
-          return x;
-      };
+    return (x, y) -> {
+      x.addAll(y);
+      return x;
+    };
   }
 
   @Override
   public Function<ArrayNode, ArrayNode> finisher() {
-      return accumulator -> accumulator;
+    return accumulator -> accumulator;
   }
 
   @Override
   public Set<Characteristics> characteristics() {
-      return EnumSet.of(Characteristics.UNORDERED);
+    return EnumSet.of(Characteristics.UNORDERED);
   }
 }
-

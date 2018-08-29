@@ -133,13 +133,15 @@ public class Query {
 
   public void addAttributeFilter(String filter) {
     checkAndCreateExpression();
-    expression.q = (expression.q == null) ? filter : expression.q.concat(";").concat(filter);
+    expression.q = (expression.q == null) ? filter
+        : expression.q.concat(";").concat(filter);
 
   }
 
   public void addMetadataFilter(String filter) {
     checkAndCreateExpression();
-    expression.q = (expression.q == null) ? filter : expression.q.concat(";").concat(filter);
+    expression.q = (expression.q == null) ? filter
+        : expression.q.concat(";").concat(filter);
   }
 
 }

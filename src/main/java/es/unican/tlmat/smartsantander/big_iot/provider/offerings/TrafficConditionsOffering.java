@@ -15,19 +15,28 @@ public class TrafficConditionsOffering extends GenericOffering {
 
   private static String FIWARE_TYPE = "TrafficFlowObserved";
 
-  private static List<InputOutputData> INPUT_DATA = Arrays.asList(InputOutputData.LONGITUDE,
-      InputOutputData.LATITUDE, InputOutputData.RADIUS);
+  private static List<InputOutputData> INPUT_DATA = Arrays
+      .asList(InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.RADIUS);
 
-  private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(
-      InputOutputData.TRAFFIC_FLOW_ROAD_SPOT_ID, InputOutputData.TRAFFIC_FLOW_OCCUPANCY,
-      InputOutputData.TRAFFIC_FLOW_INTENSITY, InputOutputData.TRAFFIC_FLOW_LOAD,
-      InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
+  private static List<InputOutputData> OUTPUT_DATA = Arrays
+      .asList(InputOutputData.TRAFFIC_FLOW_ROAD_SPOT_ID,
+              InputOutputData.TRAFFIC_FLOW_OCCUPANCY,
+              InputOutputData.TRAFFIC_FLOW_INTENSITY,
+              InputOutputData.TRAFFIC_FLOW_LOAD,
+              InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.TIMESTAMP);
 
-  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.TRAFFIC_FLOW_OCCUPANCY,
-      InputOutputData.TRAFFIC_FLOW_INTENSITY, InputOutputData.TRAFFIC_FLOW_LOAD);
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays
+      .asList(InputOutputData.TRAFFIC_FLOW_OCCUPANCY,
+              InputOutputData.TRAFFIC_FLOW_INTENSITY,
+              InputOutputData.TRAFFIC_FLOW_LOAD);
 
   protected TrafficConditionsOffering(OrionHttpClient orion) {
-    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
+          MANDATORY_OUTPUT_DATA);
   }
 
   public static final TrafficConditionsOffering create(OrionHttpClient orion) {

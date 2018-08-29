@@ -29,20 +29,22 @@ import es.unican.tlmat.utils.collectors.CustomCollectors;
 
 public abstract class GenericOffering implements AccessRequestHandler {
 
-  // TODO: hacerlo como builder o direcatement como parametros, pero guardar los enlaces del
+  // TODO: hacerlo como builder o direcatement como parametros, pero guardar los
+  // enlaces del
   // builder.
   // https://stackoverflow.com/questions/17164375/subclassing-a-java-builder-class
   // https://stackoverflow.com/questions/21086417/builder-pattern-and-inheritance
 
-  private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  private static final Logger log =
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   private static String USER_AGENT = "BIG IoT/1.0 BigSantander Provider/1.0";
-//  private static String ORION_HOST = "BASE_URL_ORION/v2/op/query";
-  private static String ORION_HOST = "http://orion-cb.tlmat.synchronicity-iot.eu:1026/v2/op/query";
-
+  // private static String ORION_HOST = "BASE_URL_ORION/v2/op/query";
+  private static String ORION_HOST =
+      "http://orion-cb.tlmat.synchronicity-iot.eu:1026/v2/op/query";
 
   // TODO: JSON numbers as strings
-// JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS
+  // JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS
   protected static final ObjectMapper mapper = new ObjectMapper();
 
   private final List<InputOutputData> inputData;
@@ -53,26 +55,39 @@ public abstract class GenericOffering implements AccessRequestHandler {
 
   private final OrionHttpClient orion;
 
-  protected GenericOffering(OrionHttpClient orionHttpClient, String name, String description, String category,
-      List<InputOutputData> inputData, List<InputOutputData> outputData,
+  protected GenericOffering(OrionHttpClient orionHttpClient, String name,
+      String description, String category, List<InputOutputData> inputData,
+      List<InputOutputData> outputData,
       List<InputOutputData> mandatoryOutputData) {
 
     this.orion = orionHttpClient;
     this.inputData = inputData;
     this.outputData = outputData;
-    this.mandatoryOutputData = mandatoryOutputData.stream().map(InputOutputData::getName)
+    this.mandatoryOutputData = mandatoryOutputData
+        .stream()
+        .map(InputOutputData::getName)
         .collect(Collectors.toSet());
 
     RegistrableOfferingDescriptionChain offeringChain = OfferingDescription
-        .createOfferingDescription(description).withName(name).withCategory(category);
+        .createOfferingDescription(description)
+        .withName(name)
+        .withCategory(category);
 
-    getInputData().stream().forEach(
-        e -> offeringChain.addInputData(e.getName(), e.getRdfAnnotation(), e.getValueType()));
-    getOutputData().stream().forEach(
-        e -> offeringChain.addOutputData(e.getName(), e.getRdfAnnotation(), e.getValueType()));
+    getInputData()
+        .stream()
+        .forEach(e -> offeringChain
+            .addInputData(e.getName(), e.getRdfAnnotation(), e.getValueType()));
+    getOutputData()
+        .stream()
+        .forEach(e -> offeringChain
+            .addOutputData(e.getName(),
+                           e.getRdfAnnotation(),
+                           e.getValueType()));
 
-    offeringDescription = offeringChain.withPrice(Euros.amount(0.001))
-        .withPricingModel(PricingModel.PER_ACCESS).withLicenseType(LicenseType.OPEN_DATA_LICENSE);
+    offeringDescription = offeringChain
+        .withPrice(Euros.amount(0.001))
+        .withPricingModel(PricingModel.PER_ACCESS)
+        .withLicenseType(LicenseType.OPEN_DATA_LICENSE);
 
     fiwareFields = GenericOffering.getParentFiwareFieldFromJsonPath(outputData);
 
@@ -98,9 +113,12 @@ public abstract class GenericOffering implements AccessRequestHandler {
     return orion;
   }
 
-  protected static Collection<String> getParentFiwareFieldFromJsonPath(
-      Collection<InputOutputData> io) {
-    return io.stream().map(e -> e.getFiwareJsonPath().split("/")[1]).collect(Collectors.toSet());
+  protected static Collection<String>
+      getParentFiwareFieldFromJsonPath(Collection<InputOutputData> io) {
+    return io
+        .stream()
+        .map(e -> e.getFiwareJsonPath().split("/")[1])
+        .collect(Collectors.toSet());
   }
 
   protected Query createFiwareQuery(Map<String, Object> inputData) {
@@ -111,10 +129,16 @@ public abstract class GenericOffering implements AccessRequestHandler {
     if (inputData.containsKey(InputOutputData.LONGITUDE.toString())
         && inputData.containsKey(InputOutputData.LATITUDE.toString())
         && inputData.containsKey(InputOutputData.RADIUS.toString())) {
-      query.withinAreaFilter(
-          Double.parseDouble((String) inputData.get(InputOutputData.LATITUDE.toString())),
-          Double.parseDouble((String) inputData.get(InputOutputData.LONGITUDE.toString())),
-          Integer.parseUnsignedInt((String) inputData.get(InputOutputData.RADIUS.toString())));
+      query
+          .withinAreaFilter(Double
+              .parseDouble((String) inputData
+                  .get(InputOutputData.LATITUDE.toString())),
+                            Double
+                                .parseDouble((String) inputData
+                                    .get(InputOutputData.LONGITUDE.toString())),
+                            Integer
+                                .parseUnsignedInt((String) inputData
+                                    .get(InputOutputData.RADIUS.toString())));
     }
 
     return query;
@@ -139,20 +163,24 @@ public abstract class GenericOffering implements AccessRequestHandler {
   // true if a JSON node with data
   private boolean checkNotEmptyBigIotValue(final JsonNode node) {
     Iterable<String> iterable = () -> node.fieldNames();
-    // Stream<String> defaultFields = Stream.of("latitude", "longitude", "timestamp", "id");
+    // Stream<String> defaultFields = Stream.of("latitude", "longitude",
+    // "timestamp", "id");
     // Supplier<Stream<String>> streamSupplier = () -> defaultFields;
     // streamSupplier.get().findAny();
 
     // noneMatch returns true if none of element of stream matches
-//    return StreamSupport.stream(iterable.spliterator(), false)
-//        .anyMatch(e -> defaultFields.stream().noneMatch(f -> f.equals(e)));
-    return StreamSupport.stream(iterable.spliterator(), false)
+    // return StreamSupport.stream(iterable.spliterator(), false)
+    // .anyMatch(e -> defaultFields.stream().noneMatch(f -> f.equals(e)));
+    return StreamSupport
+        .stream(iterable.spliterator(), false)
         .anyMatch(mandatoryOutputData::contains);
   }
 
   @Override
-  public BigIotHttpResponse processRequestHandler(OfferingDescription offeringDescription,
-      Map<String, Object> inputData, String subscriberId, String consumerInfo) {
+  public BigIotHttpResponse
+      processRequestHandler(OfferingDescription offeringDescription,
+                            Map<String, Object> inputData, String subscriberId,
+                            String consumerInfo) {
 
     Query query = createFiwareQuery(inputData);
 
@@ -162,41 +190,47 @@ public abstract class GenericOffering implements AccessRequestHandler {
       // Process Orion response
       // Can be done using .foreach(newArray::add)
       // Another option for creating a stream
-      // Stream<JsonNode> nodes = IntStream.range(0, fiwareNodes.size()).mapToObj(fiwareNodes::get);
-      ArrayNode bigiotNodes = StreamSupport.stream(fiwareNodes.spliterator(), true)
-          .map(e -> convertFiwareToBigiot((ObjectNode) e)).filter(e -> checkNotEmptyBigIotValue(e))
+      // Stream<JsonNode> nodes = IntStream.range(0,
+      // fiwareNodes.size()).mapToObj(fiwareNodes::get);
+      ArrayNode bigiotNodes = StreamSupport
+          .stream(fiwareNodes.spliterator(), true)
+          .map(e -> convertFiwareToBigiot((ObjectNode) e))
+          .filter(e -> checkNotEmptyBigIotValue(e))
           .collect(CustomCollectors.toArrayNode());
 
       String jsonString = mapper.writer().writeValueAsString(bigiotNodes);
       return BigIotHttpResponse.okay().withBody(jsonString).asJsonType();
     } catch (Exception e) {
       log.error("Ops!", e);
-      return BigIotHttpResponse.error().withBody(
-          "{ \"error\": \"500\", \"description\": \"Internal server error while retrieving data\"")
+      return BigIotHttpResponse
+          .error()
+          .withBody("{ \"error\": \"500\", \"description\": \"Internal server error while retrieving data\"")
           .asJsonType();
     }
   }
 }
 
-//private String getQueryParams(HashMap<String, String> params)
-//throws UnsupportedEncodingException {
-//StringBuilder result = new StringBuilder();
-//boolean first = true;
-//for (Map.Entry<String, String> entry : params.entrySet()) {
-//if (first) {
-//first = false;
-//} else {
-//result.append("&");
-//}
+// private String getQueryParams(HashMap<String, String> params)
+// throws UnsupportedEncodingException {
+// StringBuilder result = new StringBuilder();
+// boolean first = true;
+// for (Map.Entry<String, String> entry : params.entrySet()) {
+// if (first) {
+// first = false;
+// } else {
+// result.append("&");
+// }
 //
-//result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-//result.append("=");
-//result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-//}
+// result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+// result.append("=");
+// result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+// }
 //
-//return result.toString();
-//}
+// return result.toString();
+// }
 //
-//private String queryParam(String key, String value) throws UnsupportedEncodingException {
-//return URLEncoder.encode(key, "UTF-8").concat("=").concat(URLEncoder.encode(value, "UTF-8"));
-//}
+// private String queryParam(String key, String value) throws
+// UnsupportedEncodingException {
+// return URLEncoder.encode(key,
+// "UTF-8").concat("=").concat(URLEncoder.encode(value, "UTF-8"));
+// }

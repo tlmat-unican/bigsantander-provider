@@ -5,13 +5,37 @@ import org.eclipse.bigiot.lib.model.BigIotTypes.ValueType;
 public enum InputOutputData {
   // Generic
   ID("id", "schema:id", ValueType.TEXT, "/id"),
-  LONGITUDE("longitude", "schema:longitude", ValueType.NUMBER, "/location/coordinates/0"),
-  LATITUDE("latitude", "schema:latitude", ValueType.NUMBER, "/location/coordinates/1"),
-  RADIUS("geoRadius", "schema:geoRadius", ValueType.NUMBER, InputOutputData.NULL_PATH),
-  TIMESTAMP("timestamp", "schema:geoRadius", ValueType.DATETIME, "/dateModified"),
+  LONGITUDE(
+      "longitude",
+      "schema:longitude",
+      ValueType.NUMBER,
+      "/location/coordinates/0"),
+  LATITUDE(
+      "latitude",
+      "schema:latitude",
+      ValueType.NUMBER,
+      "/location/coordinates/1"),
+  RADIUS(
+      "geoRadius",
+      "schema:geoRadius",
+      ValueType.NUMBER,
+      InputOutputData.NULL_PATH),
+  TIMESTAMP(
+      "timestamp",
+      "schema:geoRadius",
+      ValueType.DATETIME,
+      "/dateModified"),
   // Parking Space Availability (ParkingSpot)
-  PARKING_SPOT_ID("parkingSpotId", "mobility:parkingSpaceOrGroupIdentifier", ValueType.TEXT, "/id"),
-  PARKING_SPOT_STATUS("status", "mobility:parkingSpaceStatus", ValueType.TEXT, "/status"),
+  PARKING_SPOT_ID(
+      "parkingSpotId",
+      "mobility:parkingSpaceOrGroupIdentifier",
+      ValueType.TEXT,
+      "/id"),
+  PARKING_SPOT_STATUS(
+      "status",
+      "mobility:parkingSpaceStatus",
+      ValueType.TEXT,
+      "/status"),
   // Bike Sharing Station (BikeHireDockingStation)
   BIKE_SHARING_STATION_ID(
       "stationId",
@@ -131,8 +155,8 @@ public enum InputOutputData {
   private final ValueType valueType;
   private final String fiwareJsonPath;
 
-  InputOutputData(final String name, final String rdfAnnotation, final ValueType valueType,
-      final String jsonPath) {
+  InputOutputData(final String name, final String rdfAnnotation,
+      final ValueType valueType, final String jsonPath) {
     this.name = name;
     this.rdfAnnotation = rdfAnnotation;
     this.valueType = valueType;

@@ -1,7 +1,7 @@
 package es.unican.tlmat.utils.collectors;
 
 public class CustomCollectors {
-    public static ArrayNodeCollector toArrayNode(){
-        return new ArrayNodeCollector();
-    }
+  public static ArrayNodeCollector toArrayNode() {
+    return new ArrayNodeCollector();
+  }
 }

@@ -16,17 +16,25 @@ public class WindSensorsOffering extends GenericOffering {
 
   private static Stream<String> FIWARE_TYPE = Stream.of("WeatherObserved");
 
-  private static List<InputOutputData> INPUT_DATA = Arrays.asList(InputOutputData.LONGITUDE,
-      InputOutputData.LATITUDE, InputOutputData.RADIUS);
+  private static List<InputOutputData> INPUT_DATA = Arrays
+      .asList(InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.RADIUS);
 
-  private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(
-      InputOutputData.WEATHER_WIND_SPEED, InputOutputData.WEATHER_WIND_DIRECTION,
-      InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
+  private static List<InputOutputData> OUTPUT_DATA = Arrays
+      .asList(InputOutputData.WEATHER_WIND_SPEED,
+              InputOutputData.WEATHER_WIND_DIRECTION,
+              InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.TIMESTAMP);
 
-  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_WIND_SPEED, InputOutputData.WEATHER_WIND_DIRECTION);
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays
+      .asList(InputOutputData.WEATHER_WIND_SPEED,
+              InputOutputData.WEATHER_WIND_DIRECTION);
 
   protected WindSensorsOffering(OrionHttpClient orion) {
-    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
+          MANDATORY_OUTPUT_DATA);
   }
 
   public static final WindSensorsOffering create(OrionHttpClient orion) {

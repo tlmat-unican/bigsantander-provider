@@ -35,28 +35,38 @@ public class Provider {
 
   // Start the Spark Provider instance
   private void startServer() throws IOException {
-    // Initialize a provider with Provider ID and Marketplace URI, the local IP/DNS, etc., and
+    // Initialize a provider with Provider ID and Marketplace URI, the local
+    // IP/DNS, etc., and
     // authenticate it on the Marketplace
     providerSpark = ProviderSpark
-        .create(prop.PROVIDER_ID, prop.MARKETPLACE_URI, prop.PROVIDER_DNS_NAME, prop.PROVIDER_PORT)
+        .create(prop.PROVIDER_ID,
+                prop.MARKETPLACE_URI,
+                prop.PROVIDER_DNS_NAME,
+                prop.PROVIDER_PORT)
         .authenticate(prop.PROVIDER_SECRET);
   }
 
-  public void registerOffering(GenericOffering offering)
-      throws IncompleteOfferingDescriptionException, NotRegisteredException {
-    final RegistrableOfferingDescription offeringDescription = offering.getOfferingDescription();
-    final Endpoints endpoint = Endpoints.create(offeringDescription)
+  public void
+      registerOffering(GenericOffering offering) throws IncompleteOfferingDescriptionException,
+                                                 NotRegisteredException {
+    final RegistrableOfferingDescription offeringDescription =
+        offering.getOfferingDescription();
+    final Endpoints endpoint = Endpoints
+        .create(offeringDescription)
         .withAccessRequestHandler(offering);
 
-    // Register OfferingDescription on Marketplace - this will create a local endpoint based on the
+    // Register OfferingDescription on Marketplace - this will create a local
+    // endpoint based on the
     // embedded Spark Web server
-    RegisteredOffering registeredOffering = providerSpark.register(offeringDescription, endpoint);
+    RegisteredOffering registeredOffering =
+        providerSpark.register(offeringDescription, endpoint);
     registeredOfferings.add(registeredOffering.getOfferingId());
   }
 
   // Unregister the Offering from the Marketplace
   public void unregisterOffering(GenericOffering offering) {
-    final OfferingId offeringId = offering.getOfferingDescription().getOfferingId();
+    final OfferingId offeringId =
+        offering.getOfferingDescription().getOfferingId();
     providerSpark.deregister(offeringId);
     registeredOfferings.remove(offeringId);
   }
@@ -65,7 +75,8 @@ public class Provider {
   public void unregisterOfferings() {
     Iterator<OfferingId> it = registeredOfferings.iterator();
     while (it.hasNext()) {
-      OfferingId offeringId = it.next(); // must be called before you can call i.remove()
+      OfferingId offeringId = it.next(); // must be called before you can call
+                                         // i.remove()
       providerSpark.deregister(offeringId);
       it.remove();
     }

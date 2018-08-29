@@ -11,25 +11,33 @@ public class NoiseSensorsOffering extends GenericOffering {
 
   private static String DESCRIPTION = "SantanderNoiseSensorOffering";
   private static String NAME = "Santander Noise Sensor Offering";
-  private static String CATEGORY = "urn:big-iot:NoisePollutionIndicatorCategory";
+  private static String CATEGORY =
+      "urn:big-iot:NoisePollutionIndicatorCategory";
 
   private static String FIWARE_TYPE = "NoiseLevelObserved";
 
-  private static List<InputOutputData> INPUT_DATA = Arrays.asList(InputOutputData.LONGITUDE,
-      InputOutputData.LATITUDE, InputOutputData.RADIUS);
+  private static List<InputOutputData> INPUT_DATA = Arrays
+      .asList(InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.RADIUS);
 
-  private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(InputOutputData.NOISE_LEVEL,
-      InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
+  private static List<InputOutputData> OUTPUT_DATA = Arrays
+      .asList(InputOutputData.NOISE_LEVEL,
+              InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.TIMESTAMP);
 
-  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.NOISE_LEVEL);
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA =
+      Arrays.asList(InputOutputData.NOISE_LEVEL);
 
   protected NoiseSensorsOffering(OrionHttpClient orion) {
-    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
+          MANDATORY_OUTPUT_DATA);
   }
 
   public static final NoiseSensorsOffering create(OrionHttpClient orion) {
     return new NoiseSensorsOffering(orion);
-    }
+  }
 
   @Override
   protected Query createFiwareQuery(Map<String, Object> inputData) {

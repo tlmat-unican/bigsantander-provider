@@ -11,7 +11,8 @@ import org.slf4j.LoggerFactory;
 
 public class Configuration {
 
-  private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  private static final Logger log =
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   private static final String ORION_URL = "orion";
 
@@ -35,9 +36,9 @@ public class Configuration {
    * Gets the requested property
    *
    * @param key
-   *            The key of the property
+   *          The key of the property
    * @param defaultValue
-   *            The default value for the requested key
+   *          The default value for the requested key
    *
    * @return the requested property
    */
@@ -49,7 +50,7 @@ public class Configuration {
    * Gets the requested property
    *
    * @param key
-   *            The key of the property
+   *          The key of the property
    *
    * @return the requested property
    */

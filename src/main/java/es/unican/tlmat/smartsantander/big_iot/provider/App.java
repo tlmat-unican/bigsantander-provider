@@ -27,13 +27,16 @@ import es.unican.tlmat.smartsantander.big_iot.provider.offerings.WindSensorsOffe
  *
  */
 public class App {
-  private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  private static final Logger log =
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   public static void main(String[] args) throws InterruptedException,
-      IncompleteOfferingDescriptionException, IOException, NotRegisteredException {
+                                         IncompleteOfferingDescriptionException,
+                                         IOException, NotRegisteredException {
 
     // Load example properties file
-    BridgeIotProperties prop = BridgeIotProperties.load("smartsantander.properties");
+    BridgeIotProperties prop =
+        BridgeIotProperties.load("smartsantander.properties");
 
     Configuration config = Configuration.load("smartsantander.properties");
 
@@ -43,7 +46,8 @@ public class App {
 
     smsProvider.start();
 
-    smsProvider.registerOffering(ParkingSpaceAvailabilityOffering.create(orion));
+    smsProvider
+        .registerOffering(ParkingSpaceAvailabilityOffering.create(orion));
     smsProvider.registerOffering(BikeSharingStationsOffering.create(orion));
     smsProvider.registerOffering(TrafficConditionsOffering.create(orion));
     smsProvider.registerOffering(BusArrivalEstimationOffering.create(orion));
@@ -51,7 +55,8 @@ public class App {
     smsProvider.registerOffering(TemperatureSensorsOffering.create(orion));
     smsProvider.registerOffering(RelativeHumiditySensorsOffering.create(orion));
     smsProvider.registerOffering(WindSensorsOffering.create(orion));
-    smsProvider.registerOffering(AtmosphericPressureSensorOffering.create(orion));
+    smsProvider
+        .registerOffering(AtmosphericPressureSensorOffering.create(orion));
     smsProvider.registerOffering(AirPollutionSensorsOffering.create(orion));
 
     final Thread mainThread = Thread.currentThread();
@@ -72,7 +77,8 @@ public class App {
     });
 
     // Run until user presses the ENTER key
-    System.out.println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
+    System.out
+        .println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
     Scanner keyboard = new Scanner(System.in);
     keyboard.nextLine();
     keyboard.close();

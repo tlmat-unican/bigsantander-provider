@@ -20,7 +20,8 @@ import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class BusArrivalEstimationOffering extends GenericOffering {
 
-  private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  private static final Logger log =
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   private static String DESCRIPTION = "SantanderBusArrivalEstimationOffering";
   private static String NAME = "Santander Bus Arrival Estimation Offering";
@@ -28,27 +29,39 @@ public class BusArrivalEstimationOffering extends GenericOffering {
 
   private static String FIWARE_TYPE = "BusArrivalEstimation";
 
-  private static List<InputOutputData> INPUT_DATA = Arrays.asList(InputOutputData.LONGITUDE,
-      InputOutputData.LATITUDE, InputOutputData.RADIUS, InputOutputData.BUS_STOP_ID);
+  private static List<InputOutputData> INPUT_DATA = Arrays
+      .asList(InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.RADIUS,
+              InputOutputData.BUS_STOP_ID);
 
-  private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(InputOutputData.BUS_STOP_ID,
-      InputOutputData.BUS_STOP_NAME, InputOutputData.BUS_LINE_ID, InputOutputData.BUS_LINE_NAME,
-      InputOutputData.BUS_STOP_TIME_TO_ARRIVAL, InputOutputData.LONGITUDE, InputOutputData.LATITUDE,
-      InputOutputData.TIMESTAMP);
+  private static List<InputOutputData> OUTPUT_DATA = Arrays
+      .asList(InputOutputData.BUS_STOP_ID,
+              InputOutputData.BUS_STOP_NAME,
+              InputOutputData.BUS_LINE_ID,
+              InputOutputData.BUS_LINE_NAME,
+              InputOutputData.BUS_STOP_TIME_TO_ARRIVAL,
+              InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.TIMESTAMP);
 
-  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(
-      InputOutputData.BUS_STOP_ID, InputOutputData.BUS_LINE_ID,
-      InputOutputData.BUS_STOP_TIME_TO_ARRIVAL);
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays
+      .asList(InputOutputData.BUS_STOP_ID,
+              InputOutputData.BUS_LINE_ID,
+              InputOutputData.BUS_STOP_TIME_TO_ARRIVAL);
 
   private Map<String, String> stops;
   private Map<String, String> lines;
 
   protected BusArrivalEstimationOffering(OrionHttpClient orion) {
-    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
+          MANDATORY_OUTPUT_DATA);
   }
 
-  public static final BusArrivalEstimationOffering create(OrionHttpClient orion) throws IOException {
-    BusArrivalEstimationOffering offering = new BusArrivalEstimationOffering(orion);
+  public static final BusArrivalEstimationOffering
+      create(OrionHttpClient orion) throws IOException {
+    BusArrivalEstimationOffering offering =
+        new BusArrivalEstimationOffering(orion);
     offering.setStops();
     offering.setLines();
 
@@ -63,12 +76,17 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     this.lines = sendOrionQueryForIdNameDuple(new Query("BusLine"));
   }
 
-  private Map<String, String> sendOrionQueryForIdNameDuple(Query query) throws IOException {
+  private Map<String, String>
+      sendOrionQueryForIdNameDuple(Query query) throws IOException {
     query.addAttributes(Arrays.asList("id", "name"));
     ArrayNode jsonStops = getOrionHttpClient().postQuery(query);
-    return StreamSupport.stream(jsonStops.spliterator(), true)
-        .map(e -> new SimpleImmutableEntry<>(e.get("id").asText(), e.get("name").asText()))
-        .collect(Collectors.toMap(SimpleImmutableEntry::getKey, SimpleImmutableEntry::getValue));
+    return StreamSupport
+        .stream(jsonStops.spliterator(), true)
+        .map(e -> new SimpleImmutableEntry<>(e.get("id").asText(),
+                                             e.get("name").asText()))
+        .collect(Collectors
+            .toMap(SimpleImmutableEntry::getKey,
+                   SimpleImmutableEntry::getValue));
   }
 
   @Override
@@ -77,9 +95,12 @@ public class BusArrivalEstimationOffering extends GenericOffering {
 
     Query.Entity entity = new Query.Entity();
     entity.type = FIWARE_TYPE;
-    entity.idPattern = (inputData.containsKey(InputOutputData.BUS_STOP_ID.getName()))
-        ? String.format(":%s$", inputData.get(InputOutputData.BUS_STOP_ID.getName()))
-        : ".*";
+    entity.idPattern =
+        (inputData.containsKey(InputOutputData.BUS_STOP_ID.getName()))
+            ? String
+                .format(":%s$",
+                        inputData.get(InputOutputData.BUS_STOP_ID.getName()))
+            : ".*";
 
     query.addEntity(entity);
 
@@ -91,11 +112,13 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     ObjectNode rootNode = super.convertFiwareToBigiot(src);
 
     // Retrieve bus stop name
-    String stopId = rootNode.get(InputOutputData.BUS_STOP_ID.getName()).asText();
+    String stopId =
+        rootNode.get(InputOutputData.BUS_STOP_ID.getName()).asText();
     rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), stops.get(stopId));
 
     // Retrieve bus line name
-    String lineId = rootNode.get(InputOutputData.BUS_LINE_ID.getName()).asText();
+    String lineId =
+        rootNode.get(InputOutputData.BUS_LINE_ID.getName()).asText();
     rootNode.put(InputOutputData.BUS_LINE_NAME.getName(), lines.get(lineId));
 
     return rootNode;

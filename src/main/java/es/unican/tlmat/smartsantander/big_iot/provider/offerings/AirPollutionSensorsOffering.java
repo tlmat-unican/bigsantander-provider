@@ -16,22 +16,31 @@ public class AirPollutionSensorsOffering extends GenericOffering {
 
   private static Stream<String> FIWARE_TYPE = Stream.of("AirQualityObserved");
 
-  private static List<InputOutputData> INPUT_DATA = Arrays.asList(InputOutputData.LONGITUDE,
-      InputOutputData.LATITUDE, InputOutputData.RADIUS);
+  private static List<InputOutputData> INPUT_DATA = Arrays
+      .asList(InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.RADIUS);
 
-  private static List<InputOutputData> OUTPUT_DATA = Arrays.asList(
-      InputOutputData.AIR_POLLUTION_NO2, InputOutputData.AIR_POLLUTION_O3,
-      InputOutputData.AIR_POLLUTION_DUST,
-      InputOutputData.LONGITUDE, InputOutputData.LATITUDE, InputOutputData.TIMESTAMP);
+  private static List<InputOutputData> OUTPUT_DATA = Arrays
+      .asList(InputOutputData.AIR_POLLUTION_NO2,
+              InputOutputData.AIR_POLLUTION_O3,
+              InputOutputData.AIR_POLLUTION_DUST,
+              InputOutputData.LONGITUDE,
+              InputOutputData.LATITUDE,
+              InputOutputData.TIMESTAMP);
 
-  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.AIR_POLLUTION_NO2, InputOutputData.AIR_POLLUTION_O3,
-      InputOutputData.AIR_POLLUTION_DUST);
+  private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays
+      .asList(InputOutputData.AIR_POLLUTION_NO2,
+              InputOutputData.AIR_POLLUTION_O3,
+              InputOutputData.AIR_POLLUTION_DUST);
 
   protected AirPollutionSensorsOffering(OrionHttpClient orion) {
-    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
+          MANDATORY_OUTPUT_DATA);
   }
 
-  public static final AirPollutionSensorsOffering create(OrionHttpClient orion) {
+  public static final AirPollutionSensorsOffering
+      create(OrionHttpClient orion) {
     return new AirPollutionSensorsOffering(orion);
   }
 
