@@ -113,7 +113,7 @@ public enum InputOutputData {
       "busLineId",
       "mobility:hasBusLineNumber",
       ValueType.NUMBER,
-      "/refBusStops"),
+      "/refBusLine"),
   BUS_LINE_NAME(
       "busLineName",
       "proposed:hasBusLineName",
