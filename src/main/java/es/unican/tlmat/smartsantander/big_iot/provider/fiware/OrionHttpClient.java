@@ -23,7 +23,7 @@ import okhttp3.Response;
 public class OrionHttpClient {
   private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  private static String USER_AGENT = "BIG IoT/1.0 BigSantander Provider/1.0";
+  private static String USER_AGENT = "SmartSantander / Orion HTTP Client 1.0 / Java";
   private static final MediaType MEDIA_TYPE_JSON = MediaType
       .parse("application/json; charset=utf-8");
 
@@ -31,25 +31,25 @@ public class OrionHttpClient {
       .connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS)
       .readTimeout(30, TimeUnit.SECONDS)
 //      .cache(null)
+      .followRedirects(true)
       .build();
 
-  private static final HttpUrl configUrl = HttpUrl
-      .parse("http://orion-cb.tlmat.synchronicity-iot.eu:1026/v2/op/query");
-
-  private static final HttpUrl defaultOrionUrl = new HttpUrl.Builder().scheme(configUrl.scheme())
-      .host(configUrl.host()).port(configUrl.port()).addPathSegment("v2")
-      .addQueryParameter("limit", "1000").addQueryParameter("options", "count").build();
-
-  private static final Request defaultRequest = new Request.Builder()
-      .addHeader("User-Agent", USER_AGENT).cacheControl(CacheControl.FORCE_NETWORK)
-      .url(defaultOrionUrl).build();
+  private final HttpUrl defaultOrionUrl;
+  private final Request defaultRequest;
 
   protected static final ObjectMapper mapper = new ObjectMapper();
 
-  private final String orionHost;
-
   public OrionHttpClient(String url) {
-    this.orionHost = url;
+    HttpUrl configUrl = HttpUrl
+        .parse(url);
+
+    defaultOrionUrl = new HttpUrl.Builder().scheme(configUrl.scheme())
+        .host(configUrl.host()).port(configUrl.port()).addPathSegment("v2")
+        .addQueryParameter("limit", "1000").addQueryParameter("options", "count").build();
+
+    defaultRequest = new Request.Builder()
+        .addHeader("User-Agent", USER_AGENT).cacheControl(CacheControl.FORCE_NETWORK)
+        .url(defaultOrionUrl).build();
   }
 
   // IOException when there is a connection error or similar and should be translate to HTTP error 500

@@ -1,7 +1,5 @@
 package es.unican.tlmat.smartsantander.big_iot.provider.fiware;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.BikeSharingStationsOffering;
-
 public class BikeHireDockingStationQuery extends Query {
 
   private BikeHireDockingStationQuery(final Entity e) {
@@ -22,7 +20,6 @@ public class BikeHireDockingStationQuery extends Query {
     entity.type = "BikeHireDockingStation";
 
     BikeHireDockingStationQuery query = new BikeHireDockingStationQuery(entity);
-    query.addAttributes(BikeSharingStationsOffering.getInstance().getFiwareFields());
 
     return query;
   }

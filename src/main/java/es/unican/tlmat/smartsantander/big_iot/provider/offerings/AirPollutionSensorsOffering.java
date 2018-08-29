@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class AirPollutionSensorsOffering extends GenericOffering {
@@ -26,18 +27,12 @@ public class AirPollutionSensorsOffering extends GenericOffering {
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.AIR_POLLUTION_NO2, InputOutputData.AIR_POLLUTION_O3,
       InputOutputData.AIR_POLLUTION_DUST);
 
-  private static AirPollutionSensorsOffering offering = null;
-
-  protected AirPollutionSensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+  protected AirPollutionSensorsOffering(OrionHttpClient orion) {
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
-  public static final AirPollutionSensorsOffering getInstance() {
-    if (offering == null) {
-      offering = new AirPollutionSensorsOffering();
-    }
-
-    return offering;
+  public static final AirPollutionSensorsOffering create(OrionHttpClient orion) {
+    return new AirPollutionSensorsOffering(orion);
   }
 
   @Override

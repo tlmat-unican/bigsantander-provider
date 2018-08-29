@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class ParkingSpaceAvailabilityOffering extends GenericOffering {
@@ -23,18 +24,12 @@ public class ParkingSpaceAvailabilityOffering extends GenericOffering {
 
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.PARKING_SPOT_STATUS);
 
-  private static ParkingSpaceAvailabilityOffering offering = null;
-
-  protected ParkingSpaceAvailabilityOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+  protected ParkingSpaceAvailabilityOffering(OrionHttpClient orion) {
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
-  public static final ParkingSpaceAvailabilityOffering getInstance() {
-    if (offering == null) {
-      offering = new ParkingSpaceAvailabilityOffering();
-    }
-
-    return offering;
+  public static final ParkingSpaceAvailabilityOffering create(OrionHttpClient orion) {
+    return new ParkingSpaceAvailabilityOffering(orion);
   }
 
   @Override

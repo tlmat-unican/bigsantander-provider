@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class TrafficConditionsOffering extends GenericOffering {
@@ -25,18 +26,12 @@ public class TrafficConditionsOffering extends GenericOffering {
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.TRAFFIC_FLOW_OCCUPANCY,
       InputOutputData.TRAFFIC_FLOW_INTENSITY, InputOutputData.TRAFFIC_FLOW_LOAD);
 
-  private static TrafficConditionsOffering offering = null;
-
-  protected TrafficConditionsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+  protected TrafficConditionsOffering(OrionHttpClient orion) {
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
-  public static final TrafficConditionsOffering getInstance() {
-    if (offering == null) {
-      offering = new TrafficConditionsOffering();
-    }
-
-    return offering;
+  public static final TrafficConditionsOffering create(OrionHttpClient orion) {
+    return new TrafficConditionsOffering(orion);
   }
 
   @Override

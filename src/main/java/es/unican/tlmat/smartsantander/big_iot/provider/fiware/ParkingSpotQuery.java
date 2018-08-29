@@ -1,7 +1,5 @@
 package es.unican.tlmat.smartsantander.big_iot.provider.fiware;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.ParkingSpaceAvailabilityOffering;
-
 public class ParkingSpotQuery extends Query {
 
   private ParkingSpotQuery(final Entity e) {
@@ -22,7 +20,6 @@ public class ParkingSpotQuery extends Query {
     entity.type = "ParkingSpot";
 
     ParkingSpotQuery query = new ParkingSpotQuery(entity);
-    query.addAttributes(ParkingSpaceAvailabilityOffering.getInstance().getFiwareFields());
 
     return query;
   }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class NoiseSensorsOffering extends GenericOffering {
@@ -22,19 +23,13 @@ public class NoiseSensorsOffering extends GenericOffering {
 
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.NOISE_LEVEL);
 
-  private static NoiseSensorsOffering offering = null;
-
-  protected NoiseSensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+  protected NoiseSensorsOffering(OrionHttpClient orion) {
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
-  public static final NoiseSensorsOffering getInstance() {
-    if (offering == null) {
-      offering = new NoiseSensorsOffering();
+  public static final NoiseSensorsOffering create(OrionHttpClient orion) {
+    return new NoiseSensorsOffering(orion);
     }
-
-    return offering;
-  }
 
   @Override
   protected Query createFiwareQuery(Map<String, Object> inputData) {

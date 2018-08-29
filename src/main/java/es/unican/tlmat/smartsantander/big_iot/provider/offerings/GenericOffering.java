@@ -37,8 +37,9 @@ public abstract class GenericOffering implements AccessRequestHandler {
   private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   private static String USER_AGENT = "BIG IoT/1.0 BigSantander Provider/1.0";
-  private static String ORION_HOST = "BASE_URL_ORION/v2/op/query";
-  private static final List<String> DEFAULT_FIELDS = Arrays.asList(InputOutputData.LATITUDE.getName(), "longitude", "timestamp", "id");
+//  private static String ORION_HOST = "BASE_URL_ORION/v2/op/query";
+  private static String ORION_HOST = "http://orion-cb.tlmat.synchronicity-iot.eu:1026/v2/op/query";
+
 
   // TODO: JSON numbers as strings
 // JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS
@@ -50,10 +51,13 @@ public abstract class GenericOffering implements AccessRequestHandler {
   private final Collection<String> fiwareFields;
   private final RegistrableOfferingDescription offeringDescription;
 
-  protected GenericOffering(String name, String description, String category,
+  private final OrionHttpClient orion;
+
+  protected GenericOffering(OrionHttpClient orionHttpClient, String name, String description, String category,
       List<InputOutputData> inputData, List<InputOutputData> outputData,
       List<InputOutputData> mandatoryOutputData) {
 
+    this.orion = orionHttpClient;
     this.inputData = inputData;
     this.outputData = outputData;
     this.mandatoryOutputData = mandatoryOutputData.stream().map(InputOutputData::getName)
@@ -88,6 +92,10 @@ public abstract class GenericOffering implements AccessRequestHandler {
 
   public Collection<String> getFiwareFields() {
     return fiwareFields;
+  }
+
+  protected OrionHttpClient getOrionHttpClient() {
+    return orion;
   }
 
   protected static Collection<String> getParentFiwareFieldFromJsonPath(
@@ -145,8 +153,6 @@ public abstract class GenericOffering implements AccessRequestHandler {
   @Override
   public BigIotHttpResponse processRequestHandler(OfferingDescription offeringDescription,
       Map<String, Object> inputData, String subscriberId, String consumerInfo) {
-
-    OrionHttpClient orion = new OrionHttpClient(ORION_HOST);
 
     Query query = createFiwareQuery(inputData);
 

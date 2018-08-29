@@ -40,21 +40,17 @@ public class BusArrivalEstimationOffering extends GenericOffering {
       InputOutputData.BUS_STOP_ID, InputOutputData.BUS_LINE_ID,
       InputOutputData.BUS_STOP_TIME_TO_ARRIVAL);
 
-  private static BusArrivalEstimationOffering offering = null;
-
   private Map<String, String> stops;
   private Map<String, String> lines;
 
-  protected BusArrivalEstimationOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+  protected BusArrivalEstimationOffering(OrionHttpClient orion) {
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
-  public static final BusArrivalEstimationOffering getInstance() throws IOException {
-    if (offering == null) {
-      offering = new BusArrivalEstimationOffering();
-      offering.setStops();
-      offering.setLines();
-    }
+  public static final BusArrivalEstimationOffering create(OrionHttpClient orion) throws IOException {
+    BusArrivalEstimationOffering offering = new BusArrivalEstimationOffering(orion);
+    offering.setStops();
+    offering.setLines();
 
     return offering;
   }
@@ -67,15 +63,13 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     this.lines = sendOrionQueryForIdNameDuple(new Query("BusLine"));
   }
 
-  private static Map<String, String> sendOrionQueryForIdNameDuple(Query query) throws IOException {
-    OrionHttpClient orion = new OrionHttpClient("a");
+  private Map<String, String> sendOrionQueryForIdNameDuple(Query query) throws IOException {
     query.addAttributes(Arrays.asList("id", "name"));
-    ArrayNode jsonStops = orion.postQuery(query);
+    ArrayNode jsonStops = getOrionHttpClient().postQuery(query);
     return StreamSupport.stream(jsonStops.spliterator(), true)
         .map(e -> new SimpleImmutableEntry<>(e.get("id").asText(), e.get("name").asText()))
         .collect(Collectors.toMap(SimpleImmutableEntry::getKey, SimpleImmutableEntry::getValue));
   }
-
 
   @Override
   protected Query createFiwareQuery(Map<String, Object> inputData) {

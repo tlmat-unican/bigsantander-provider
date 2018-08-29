@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
 import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
 
 public class WindSensorsOffering extends GenericOffering {
@@ -24,18 +25,12 @@ public class WindSensorsOffering extends GenericOffering {
 
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA = Arrays.asList(InputOutputData.WEATHER_WIND_SPEED, InputOutputData.WEATHER_WIND_DIRECTION);
 
-  private static WindSensorsOffering offering = null;
-
-  protected WindSensorsOffering() {
-    super(NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
+  protected WindSensorsOffering(OrionHttpClient orion) {
+    super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA, MANDATORY_OUTPUT_DATA);
   }
 
-  public static final WindSensorsOffering getInstance() {
-    if (offering == null) {
-      offering = new WindSensorsOffering();
-    }
-
-    return offering;
+  public static final WindSensorsOffering create(OrionHttpClient orion) {
+    return new WindSensorsOffering(orion);
   }
 
   @Override
