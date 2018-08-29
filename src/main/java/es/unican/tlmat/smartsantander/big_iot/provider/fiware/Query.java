@@ -70,6 +70,14 @@ public class Query {
   public Query() {
   }
 
+  public Query(final String type) {
+    Query.Entity entity = new Query.Entity();
+    entity.idPattern = ".*";
+    entity.type = type;
+
+    this.addEntity(entity);
+  }
+
   public Query(final Entity e) {
     this.addEntity(e);
   }
