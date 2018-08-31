@@ -21,6 +21,9 @@ import es.unican.tlmat.smartsantander.big_iot.provider.offerings.RelativeHumidit
 import es.unican.tlmat.smartsantander.big_iot.provider.offerings.TemperatureSensorsOffering;
 import es.unican.tlmat.smartsantander.big_iot.provider.offerings.TrafficConditionsOffering;
 import es.unican.tlmat.smartsantander.big_iot.provider.offerings.WindSensorsOffering;
+import picocli.CommandLine;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.ParameterException;
 
 /**
  * Hello world!.
@@ -34,11 +37,32 @@ public class App {
                                          IncompleteOfferingDescriptionException,
                                          IOException, NotRegisteredException {
 
+    // TODO: When checked that shutdown hook works, try to use Callable<void>
+    Options options = new Options();
+
+    try {
+        // Populate the created class from the command line arguments.
+        CommandLine.populateCommand(options, args);
+    } catch (ParameterException e) {
+        // The given command line arguments are invalid, for example there
+        // are options specified which do not exist or one of the options
+        // is malformed (missing a value, for example).
+        System.out.println(e.getMessage());
+        CommandLine.usage(options, System.out);
+        return;
+    }
+
+    // Print the state.
+    if (options.isHelpRequested()) {
+        CommandLine.usage(options, System.out);
+        System.exit(1);
+    }
+
     // Load example properties file
     BridgeIotProperties prop =
-        BridgeIotProperties.load("smartsantander.properties");
+        BridgeIotProperties.load(options.getConfigFile());
 
-    Configuration config = Configuration.load("smartsantander.properties");
+    Configuration config = Configuration.load(options.getConfigFile());
 
     Provider smsProvider = new Provider(prop);
 
@@ -84,6 +108,27 @@ public class App {
     keyboard.close();
 
     smsProvider.stop();
+  }
+
+  /**
+   * This is the main container which will be populated by picocli with values
+   * from the arguments.
+   */
+  private static class Options {
+    @Option(names = { "-h", "--help" }, description = "Prints this help text.")
+    private boolean helpRequested = false;
+
+    public boolean isHelpRequested() {
+      return helpRequested;
+    }
+
+    @Option(names = { "-c", "--config" }, description = "Prints this help text.")
+    private String configFile = "smartsantander.properties";
+
+    public String getConfigFile() {
+      return configFile;
+    }
+
   }
 
 }

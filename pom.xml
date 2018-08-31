@@ -19,6 +19,7 @@
 		<log4j.version>2.11.1</log4j.version>
 		<jackson.version>2.9.6</jackson.version>
 		<okhttp.version>3.11.0</okhttp.version>
+		<picocli.version>3.5.2</picocli.version>
 	</properties>
 
 	<repositories>
@@ -78,6 +79,12 @@
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 			<version>${okhttp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>${picocli.version}</version>
 		</dependency>
 
 		<dependency>
