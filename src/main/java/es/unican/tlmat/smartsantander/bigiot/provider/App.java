@@ -100,14 +100,16 @@ public class App {
       }
     });
 
-    // Run until user presses the ENTER key
-    System.out
-        .println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
-    Scanner keyboard = new Scanner(System.in);
-    keyboard.nextLine();
-    keyboard.close();
+    // Run until user presses the ENTER key (debug configuration)
+    if (System.getProperty("bigiot.terminateUsingConsole").equalsIgnoreCase("true")) {
+      System.out
+          .println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
+      Scanner keyboard = new Scanner(System.in);
+      keyboard.nextLine();
+      keyboard.close();
 
-    smsProvider.stop();
+      smsProvider.stop();
+    }
   }
 
   /**
