@@ -124,12 +124,10 @@ public class App {
 
     @Option(names = { "-c", "--config" },
             description = "Prints this help text.")
-    private String configFile = "smartsantander.properties";
+    private String configFile = "config/smartsantander.properties";
 
     public String getConfigFile() {
       return configFile;
     }
-
   }
-
 }
