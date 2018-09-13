@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 
 	<name>provider</name>
-	<url>http://maven.apache.org</url>
+	<url>http://www.tlmat.unican.es</url>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -24,6 +24,7 @@
 		<picocli.version>3.5.2</picocli.version>
 		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
 		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+		<maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
 	</properties>
 
 	<repositories>
@@ -110,37 +111,26 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven-jar-plugin.version}</version>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>com.mkyong.core.App</mainClass>
 							<mainClass>es.unican.tlmat.smartsantander.bigiot.provider.App</mainClass>
-							<classpathPrefix>dependency-jars/</classpathPrefix>
 						</manifest>
 					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven-dependency-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.directory}/dependency-jars/
-							</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
