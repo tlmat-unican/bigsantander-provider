@@ -40,16 +40,34 @@
 			<groupId>org.eclipse.bigiot.lib</groupId>
 			<artifactId>bigiot-lib-core</artifactId>
 			<version>${bigiot.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.bigiot.lib</groupId>
 			<artifactId>bigiot-lib-advanced</artifactId>
 			<version>${bigiot.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.eclipse.bigiot.lib</groupId> -->
 		<!-- <artifactId>bigiot-lib-embeddedspark</artifactId> -->
 		<!-- <version>${bigiot.version}</version> -->
+<!-- 		          <exclusions> -->
+<!--                 <exclusion> -->
+<!--                     <groupId>ch.qos.logback</groupId> -->
+<!--                     <artifactId>logback-classic</artifactId> -->
+<!--                 </exclusion> -->
+<!--             </exclusions> -->
 		<!-- </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/com.sparkjava/spark-core -->
@@ -64,6 +82,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
@@ -77,7 +96,7 @@
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j18-impl</artifactId>
+			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
 
