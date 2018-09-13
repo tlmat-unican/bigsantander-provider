@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.fiware;
+package es.unican.tlmat.smartsantander.bigiot.provider.fiware;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -84,7 +84,7 @@ public class OrionHttpClient {
     if (response.code() != HttpURLConnection.HTTP_OK) {
       // Orion returns a JSON document
       throw new IOException("HTTP error " + response.code()
-                            + "from Orion server: " + response.body().string());
+                            + " from Orion server: " + response.body().string());
     }
 
     final JsonNode fiwareNodes =

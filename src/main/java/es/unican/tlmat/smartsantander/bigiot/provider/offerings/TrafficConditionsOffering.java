@@ -1,11 +1,11 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
+package es.unican.tlmat.smartsantander.bigiot.provider.offerings;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.OrionHttpClient;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.Query;
 
 public class TrafficConditionsOffering extends GenericOffering {
 

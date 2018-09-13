@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider;
+package es.unican.tlmat.smartsantander.bigiot.provider;
 
 import java.io.File;
 import java.io.FileInputStream;

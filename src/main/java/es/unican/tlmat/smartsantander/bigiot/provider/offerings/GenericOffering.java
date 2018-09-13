@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
+package es.unican.tlmat.smartsantander.bigiot.provider.offerings;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.OrionHttpClient;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.Query;
 import es.unican.tlmat.utils.collectors.CustomCollectors;
 
 public abstract class GenericOffering implements AccessRequestHandler {

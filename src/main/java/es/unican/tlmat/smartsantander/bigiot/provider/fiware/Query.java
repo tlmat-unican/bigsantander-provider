@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.fiware;
+package es.unican.tlmat.smartsantander.bigiot.provider.fiware;
 
 import java.util.Collection;
 import java.util.Collections;

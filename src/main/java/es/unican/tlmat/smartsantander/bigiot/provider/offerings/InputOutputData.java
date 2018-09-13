@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
+package es.unican.tlmat.smartsantander.bigiot.provider.offerings;
 
 import org.eclipse.bigiot.lib.model.BigIotTypes.ValueType;
 

@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider;
+package es.unican.tlmat.smartsantander.bigiot.provider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import org.eclipse.bigiot.lib.offering.OfferingId;
 import org.eclipse.bigiot.lib.offering.RegisteredOffering;
 import org.eclipse.bigiot.lib.offering.RegistrableOfferingDescription;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.GenericOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.GenericOffering;
 
 public class Provider {
 
@@ -38,12 +38,14 @@ public class Provider {
     // Initialize a provider with Provider ID and Marketplace URI, the local
     // IP/DNS, etc., and
     // authenticate it on the Marketplace
-    providerSpark = ProviderSpark
-        .create(prop.PROVIDER_ID,
-                prop.MARKETPLACE_URI,
-                prop.PROVIDER_DNS_NAME,
-                prop.PROVIDER_PORT)
-        .authenticate(prop.PROVIDER_SECRET);
+    providerSpark =
+        new ProviderSpark.Builder(prop.PROVIDER_ID, prop.MARKETPLACE_URI)
+            .setLocalDomain("localhost")
+            .setLocalPort(9004)
+            .setPublishDomain("big-iot.smartsantander.eu")
+            .setPublishPort(443)
+            .build()
+            .authenticate(prop.PROVIDER_SECRET);
   }
 
   public void

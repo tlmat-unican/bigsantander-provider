@@ -1,22 +1,22 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
+package es.unican.tlmat.smartsantander.bigiot.provider.offerings;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.OrionHttpClient;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.Query;
 
-public class RelativeHumiditySensorsOffering extends GenericOffering {
+public class AtmosphericPressureSensorOffering extends GenericOffering {
 
   private static String DESCRIPTION =
-      "SantanderRelativeHumiditySensorsOffering";
-  private static String NAME = "Santander Relative Humidity Sensors Offering";
+      "SantanderAtmosphericPressureSensorsOffering";
+  private static String NAME =
+      "Santander Atmospheric Pressure Sensors Offering";
   private static String CATEGORY = "urn:big-iot:WeatherIndicatorCategory";
 
-  private static Stream<String> FIWARE_TYPE =
-      Stream.of("WeatherObserved", "AirQualityObserved");
+  private static Stream<String> FIWARE_TYPE = Stream.of("WeatherObserved");
 
   private static List<InputOutputData> INPUT_DATA = Arrays
       .asList(InputOutputData.LONGITUDE,
@@ -24,22 +24,22 @@ public class RelativeHumiditySensorsOffering extends GenericOffering {
               InputOutputData.RADIUS);
 
   private static List<InputOutputData> OUTPUT_DATA = Arrays
-      .asList(InputOutputData.WEATHER_HUMIDITY,
+      .asList(InputOutputData.WEATHER_ATMOSPHERIC_PRESSURE,
               InputOutputData.LONGITUDE,
               InputOutputData.LATITUDE,
               InputOutputData.TIMESTAMP);
 
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA =
-      Arrays.asList(InputOutputData.WEATHER_HUMIDITY);
+      Arrays.asList(InputOutputData.WEATHER_ATMOSPHERIC_PRESSURE);
 
-  protected RelativeHumiditySensorsOffering(OrionHttpClient orion) {
+  protected AtmosphericPressureSensorOffering(OrionHttpClient orion) {
     super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
           MANDATORY_OUTPUT_DATA);
   }
 
-  public static final RelativeHumiditySensorsOffering
+  public static final AtmosphericPressureSensorOffering
       create(OrionHttpClient orion) {
-    return new RelativeHumiditySensorsOffering(orion);
+    return new AtmosphericPressureSensorOffering(orion);
   }
 
   @Override

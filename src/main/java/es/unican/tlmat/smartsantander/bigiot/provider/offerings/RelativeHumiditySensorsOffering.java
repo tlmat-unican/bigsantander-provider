@@ -1,17 +1,18 @@
-package es.unican.tlmat.smartsantander.big_iot.provider.offerings;
+package es.unican.tlmat.smartsantander.bigiot.provider.offerings;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.Query;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.OrionHttpClient;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.Query;
 
-public class TemperatureSensorsOffering extends GenericOffering {
+public class RelativeHumiditySensorsOffering extends GenericOffering {
 
-  private static String DESCRIPTION = "SantanderAirTemperatureSensorsOffering";
-  private static String NAME = "Santander Air Temperature Sensors Offering";
+  private static String DESCRIPTION =
+      "SantanderRelativeHumiditySensorsOffering";
+  private static String NAME = "Santander Relative Humidity Sensors Offering";
   private static String CATEGORY = "urn:big-iot:WeatherIndicatorCategory";
 
   private static Stream<String> FIWARE_TYPE =
@@ -23,21 +24,22 @@ public class TemperatureSensorsOffering extends GenericOffering {
               InputOutputData.RADIUS);
 
   private static List<InputOutputData> OUTPUT_DATA = Arrays
-      .asList(InputOutputData.WEATHER_TEMPERATURE,
+      .asList(InputOutputData.WEATHER_HUMIDITY,
               InputOutputData.LONGITUDE,
               InputOutputData.LATITUDE,
               InputOutputData.TIMESTAMP);
 
   private static List<InputOutputData> MANDATORY_OUTPUT_DATA =
-      Arrays.asList(InputOutputData.WEATHER_TEMPERATURE);
+      Arrays.asList(InputOutputData.WEATHER_HUMIDITY);
 
-  protected TemperatureSensorsOffering(OrionHttpClient orion) {
+  protected RelativeHumiditySensorsOffering(OrionHttpClient orion) {
     super(orion, NAME, DESCRIPTION, CATEGORY, INPUT_DATA, OUTPUT_DATA,
           MANDATORY_OUTPUT_DATA);
   }
 
-  public static final TemperatureSensorsOffering create(OrionHttpClient orion) {
-    return new TemperatureSensorsOffering(orion);
+  public static final RelativeHumiditySensorsOffering
+      create(OrionHttpClient orion) {
+    return new RelativeHumiditySensorsOffering(orion);
   }
 
   @Override

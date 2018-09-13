@@ -1,4 +1,4 @@
-package es.unican.tlmat.smartsantander.big_iot.provider;
+package es.unican.tlmat.smartsantander.bigiot.provider;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -10,17 +10,17 @@ import org.eclipse.bigiot.lib.misc.BridgeIotProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.unican.tlmat.smartsantander.big_iot.provider.fiware.OrionHttpClient;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.AirPollutionSensorsOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.AtmosphericPressureSensorOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.BikeSharingStationsOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.BusArrivalEstimationOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.NoiseSensorsOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.ParkingSpaceAvailabilityOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.RelativeHumiditySensorsOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.TemperatureSensorsOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.TrafficConditionsOffering;
-import es.unican.tlmat.smartsantander.big_iot.provider.offerings.WindSensorsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.fiware.OrionHttpClient;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.AirPollutionSensorsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.AtmosphericPressureSensorOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.BikeSharingStationsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.BusArrivalEstimationOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.NoiseSensorsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.ParkingSpaceAvailabilityOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.RelativeHumiditySensorsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.TemperatureSensorsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.TrafficConditionsOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.WindSensorsOffering;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.ParameterException;
@@ -41,21 +41,21 @@ public class App {
     Options options = new Options();
 
     try {
-        // Populate the created class from the command line arguments.
-        CommandLine.populateCommand(options, args);
+      // Populate the created class from the command line arguments.
+      CommandLine.populateCommand(options, args);
     } catch (ParameterException e) {
-        // The given command line arguments are invalid, for example there
-        // are options specified which do not exist or one of the options
-        // is malformed (missing a value, for example).
-        System.out.println(e.getMessage());
-        CommandLine.usage(options, System.out);
-        return;
+      // The given command line arguments are invalid, for example there
+      // are options specified which do not exist or one of the options
+      // is malformed (missing a value, for example).
+      System.out.println(e.getMessage());
+      CommandLine.usage(options, System.out);
+      return;
     }
 
     // Print the state.
     if (options.isHelpRequested()) {
-        CommandLine.usage(options, System.out);
-        System.exit(1);
+      CommandLine.usage(options, System.out);
+      System.exit(1);
     }
 
     // Load example properties file
@@ -122,7 +122,8 @@ public class App {
       return helpRequested;
     }
 
-    @Option(names = { "-c", "--config" }, description = "Prints this help text.")
+    @Option(names = { "-c", "--config" },
+            description = "Prints this help text.")
     private String configFile = "smartsantander.properties";
 
     public String getConfigFile() {
