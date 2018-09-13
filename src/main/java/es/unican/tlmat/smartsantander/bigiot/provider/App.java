@@ -58,13 +58,13 @@ public class App {
       System.exit(1);
     }
 
-    // Load example properties file
+    // Load configuration properties file
+    Configuration config = Configuration.load(options.getConfigFile());
+
     BridgeIotProperties prop =
         BridgeIotProperties.load(options.getConfigFile());
 
-    Configuration config = Configuration.load(options.getConfigFile());
-
-    Provider smsProvider = new Provider(prop);
+    Provider smsProvider = new Provider(config);
 
     OrionHttpClient orion = new OrionHttpClient(config.getOrionUrl());
 

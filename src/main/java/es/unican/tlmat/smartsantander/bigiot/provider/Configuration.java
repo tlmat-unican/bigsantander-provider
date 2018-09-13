@@ -14,6 +14,14 @@ public class Configuration {
   private static final Logger log =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+  private static final String MARKETPLACE_URI = "marketplaceUri";
+  private static final String PROVIDER_ID = "providerId";
+  private static final String PROVIDER_SECRET = "providerSecret";
+
+  private static final String LOCAL_DNS_NAME = "providerLocalDnsName";
+  private static final String LOCAL_PORT = "providerLocalPort";
+  private static final String PUBLIC_DNS_NAME = "providerPublicDnsName";
+  private static final String PUBLIC_PORT = "providerPublicPort";
   private static final String ORION_URL = "orion";
 
   Properties props;
@@ -56,6 +64,37 @@ public class Configuration {
    */
   private String getProperty(String key) {
     return props.getProperty(key);
+  }
+
+  public String getMarketplaceUri() {
+    // TODO Auto-generated method stub
+    return getProperty(MARKETPLACE_URI);
+  }
+
+  public String getProviderId() {
+    // TODO Auto-generated method stub
+    return getProperty(PROVIDER_ID);
+  }
+
+  public String getProviderSecret() {
+    // TODO Auto-generated method stub
+    return getProperty(PROVIDER_SECRET);
+  }
+
+  public String getLocalDnsName() {
+    return getProperty(LOCAL_DNS_NAME);
+  }
+
+  public int getLocalPort() {
+    return Integer.parseInt(getProperty(LOCAL_PORT));
+  }
+
+  public String getPublicDnsName() {
+    return getProperty(PUBLIC_DNS_NAME);
+  }
+
+  public int getPublicPort() {
+    return Integer.parseInt(getProperty(PUBLIC_PORT));
   }
 
   public String getOrionUrl() {

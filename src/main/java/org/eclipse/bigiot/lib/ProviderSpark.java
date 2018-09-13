@@ -63,22 +63,22 @@ public class ProviderSpark extends Provider {
       return this;
     }
 
-    public Builder setLocal(String localDomain, int localPort) {
+    public Builder setLocalNetworkInfo(String localDomain, int localPort) {
       return this.setLocalDomain(localDomain).setLocalPort(localPort);
     }
 
-    public Builder setPublishDomain(String publishDomain) {
+    public Builder setPublicDomain(String publishDomain) {
       this.publishDomain = publishDomain;
       return this;
     }
 
-    public Builder setPublishPort(int publishPort) {
+    public Builder setPublicPort(int publishPort) {
       this.publishPort = publishPort;
       return this;
     }
 
-    public Builder setPublish(String publishDomain, int publishPort) {
-      return this.setPublishDomain(publishDomain).setPublishPort(publishPort);
+    public Builder setPublicNetworkInfo(String publishDomain, int publishPort) {
+      return this.setPublicDomain(publishDomain).setPublicPort(publishPort);
     }
 
     public Builder setBaseRoute(String baseRoute) {

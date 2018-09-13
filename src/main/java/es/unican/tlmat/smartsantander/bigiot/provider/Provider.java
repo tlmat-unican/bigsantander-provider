@@ -8,7 +8,6 @@ import java.util.List;
 import org.eclipse.bigiot.lib.ProviderSpark;
 import org.eclipse.bigiot.lib.exceptions.IncompleteOfferingDescriptionException;
 import org.eclipse.bigiot.lib.exceptions.NotRegisteredException;
-import org.eclipse.bigiot.lib.misc.BridgeIotProperties;
 import org.eclipse.bigiot.lib.offering.Endpoints;
 import org.eclipse.bigiot.lib.offering.OfferingId;
 import org.eclipse.bigiot.lib.offering.RegisteredOffering;
@@ -20,12 +19,12 @@ public class Provider {
 
   List<OfferingId> registeredOfferings = new ArrayList<>();
 
-  BridgeIotProperties prop;
+  Configuration config;
   private ProviderSpark providerSpark;
 
-  public Provider(BridgeIotProperties prop) {
+  public Provider(Configuration config) {
     // BridgeIotProperties.load("smartsantander.properties");
-    this.prop = prop;
+    this.config = config;
   }
 
   // Start the provider instance
@@ -39,13 +38,13 @@ public class Provider {
     // IP/DNS, etc., and
     // authenticate it on the Marketplace
     providerSpark =
-        new ProviderSpark.Builder(prop.PROVIDER_ID, prop.MARKETPLACE_URI)
-            .setLocalDomain("localhost")
-            .setLocalPort(9004)
-            .setPublishDomain("big-iot.smartsantander.eu")
-            .setPublishPort(443)
+        new ProviderSpark.Builder(config.getProviderId(), config.getMarketplaceUri())
+            .setLocalDomain(config.getLocalDnsName())
+            .setLocalPort(config.getLocalPort())
+            .setPublicDomain(config.getPublicDnsName())
+            .setPublicPort(config.getPublicPort())
             .build()
-            .authenticate(prop.PROVIDER_SECRET);
+            .authenticate(config.getProviderSecret());
   }
 
   public void
