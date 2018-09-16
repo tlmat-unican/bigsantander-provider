@@ -22,7 +22,7 @@ public enum InputOutputData {
       InputOutputData.NULL_PATH),
   TIMESTAMP(
       "timestamp",
-      "schema:geoRadius",
+      "dateTime",
       ValueType.DATETIME,
       "/dateModified"),
   // Parking Space Availability (ParkingSpot)
@@ -69,10 +69,10 @@ public enum InputOutputData {
       ValueType.NUMBER,
       "/intensity"),
   TRAFFIC_FLOW_LOAD(
-      "occupation",
+      "load",
       "proposed:roadLoadEstimation",
       ValueType.NUMBER,
-      "/roadLoad"),
+      "/load"),
   // Weather Observed (WeatherObserved, AirQualityObserved)
   WEATHER_TEMPERATURE(
       "temperature",
