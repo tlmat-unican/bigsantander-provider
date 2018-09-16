@@ -10,6 +10,8 @@ import java.util.stream.StreamSupport;
 import org.eclipse.bigiot.lib.handlers.AccessRequestHandler;
 import org.eclipse.bigiot.lib.model.BigIotTypes.LicenseType;
 import org.eclipse.bigiot.lib.model.BigIotTypes.PricingModel;
+import org.eclipse.bigiot.lib.model.BoundingBox;
+import org.eclipse.bigiot.lib.model.Location;
 import org.eclipse.bigiot.lib.model.Price.Euros;
 import org.eclipse.bigiot.lib.offering.OfferingDescription;
 import org.eclipse.bigiot.lib.offering.RegistrableOfferingDescription;
@@ -71,7 +73,11 @@ public abstract class GenericOffering implements AccessRequestHandler {
     RegistrableOfferingDescriptionChain offeringChain = OfferingDescription
         .createOfferingDescription(description)
         .withName(name)
-        .withCategory(category);
+        .withCategory(category)
+        .inRegion(BoundingBox
+            .create(Location.create(43.49711, -3.85454),
+                    Location.create(43.41802, -3.75887)));
+    // .inRegion(Region.create(City.create("Santander")));
 
     getInputData()
         .stream()
