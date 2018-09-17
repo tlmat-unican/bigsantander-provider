@@ -43,6 +43,8 @@ public class Provider {
             .setLocalPort(config.getLocalPort())
             .setPublicDomain(config.getPublicDnsName())
             .setPublicPort(config.getPublicPort())
+            .setKeyStoreFile(config.getKeyStoreFile())
+            .setKeyStorePassword(config.getKeyStorePassword())
             .build()
             .authenticate(config.getProviderSecret());
   }

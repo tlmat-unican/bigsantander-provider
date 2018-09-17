@@ -24,6 +24,9 @@ public class Configuration {
   private static final String PUBLIC_PORT = "providerPublicPort";
   private static final String ORION_URL = "orion";
 
+  private static final String KEYSTORE_FILE = "keyStoreFile";
+  private static final String KEYSTORE_PASS = "keyStorePassword";
+
   Properties props;
 
   private Configuration(final String path) throws IOException {
@@ -99,6 +102,14 @@ public class Configuration {
 
   public String getOrionUrl() {
     return getProperty(ORION_URL);
+  }
+
+  public String getKeyStoreFile() {
+    return getProperty(KEYSTORE_FILE);
+  }
+
+  public String getKeyStorePassword() {
+    return getProperty(KEYSTORE_PASS);
   }
 
 }

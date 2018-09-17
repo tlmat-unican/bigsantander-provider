@@ -47,6 +47,8 @@ public class ProviderSpark extends Provider {
     private String publishDomain;
     private int publishPort = 0;
     private String baseRoute = DEFAULT_BASE_ROUTE;
+    private String keyStoreFile;
+    private String keyStorePassword;
 
     public Builder(String providerId, String marketplaceUri) {
       this.providerId = providerId;
@@ -86,6 +88,18 @@ public class ProviderSpark extends Provider {
       return this;
     }
 
+    public Builder setKeyStoreFile(String keyStoreFile) {
+      System.out.println(keyStoreFile);
+      this.keyStoreFile = keyStoreFile;
+      return this;
+    }
+
+    public Builder setKeyStorePassword(String keyStorePassword) {
+      System.out.println(keyStorePassword);
+      this.keyStorePassword = keyStorePassword;
+      return this;
+    }
+
     public ProviderSpark build() {
       // Check publishing parameters
       if (publishDomain.isEmpty()) {
@@ -95,9 +109,11 @@ public class ProviderSpark extends Provider {
         publishPort = localPort;
       }
 
+
+
       return new ProviderSpark(providerId, marketplaceUri, localDomain,
                                localPort, publishDomain, publishPort,
-                               baseRoute);
+                               baseRoute, keyStoreFile, keyStorePassword);
     }
   }
 
@@ -136,6 +152,28 @@ public class ProviderSpark extends Provider {
       sb.append("/").append(baseRoute);
     }
     setBaseUrl(sb.toString());
+  }
+
+  protected ProviderSpark(String providerId, String marketplaceUri,
+      String localDomain, int localPort, String publishDomain, int publishPort,
+      String baseRoute, String keyStoreFile, String keyStorePassword) {
+    super(providerId, marketplaceUri);
+    server = new EmbeddedSpark(localDomain, localPort, baseRoute,
+                               ServerOptionsSpark.defaultOptions);
+    server.start(keyStoreFile, keyStorePassword);
+
+    StringBuilder sb = new StringBuilder()
+        .append("https://")
+        .append(publishDomain)
+        .append(":")
+        .append(publishPort);
+    if (!baseRoute.isEmpty()) {
+      sb.append("/").append(baseRoute);
+    }
+    setBaseUrl(sb.toString());
+
+
+
   }
 
   /**
