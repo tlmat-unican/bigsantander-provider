@@ -3,7 +3,6 @@ package es.unican.tlmat.smartsantander.bigiot.provider.offerings;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import es.unican.tlmat.smartsantander.bigiot.provider.fiware.OrionHttpClient;
 import es.unican.tlmat.smartsantander.bigiot.provider.fiware.Query;
@@ -14,8 +13,8 @@ public class TemperatureSensorsOffering extends GenericOffering {
   private static String NAME = "Santander Air Temperature Sensors Offering";
   private static String CATEGORY = "urn:big-iot:WeatherIndicatorCategory";
 
-  private static Stream<String> FIWARE_TYPE =
-      Stream.of("WeatherObserved", "AirQualityObserved");
+  private static List<String> FIWARE_TYPE =
+      Arrays.asList("WeatherObserved", "AirQualityObserved");
 
   private static List<InputOutputData> INPUT_DATA = Arrays
       .asList(InputOutputData.LONGITUDE,
