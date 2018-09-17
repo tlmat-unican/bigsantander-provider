@@ -89,13 +89,11 @@ public class ProviderSpark extends Provider {
     }
 
     public Builder setKeyStoreFile(String keyStoreFile) {
-      System.out.println(keyStoreFile);
       this.keyStoreFile = keyStoreFile;
       return this;
     }
 
     public Builder setKeyStorePassword(String keyStorePassword) {
-      System.out.println(keyStorePassword);
       this.keyStorePassword = keyStorePassword;
       return this;
     }
@@ -108,8 +106,6 @@ public class ProviderSpark extends Provider {
       if (publishPort == 0) {
         publishPort = localPort;
       }
-
-
 
       return new ProviderSpark(providerId, marketplaceUri, localDomain,
                                localPort, publishDomain, publishPort,

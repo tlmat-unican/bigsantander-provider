@@ -101,7 +101,9 @@ public class App {
     });
 
     // Run until user presses the ENTER key (debug configuration)
-    if (System.getProperty("bigiot.terminateUsingConsole").equalsIgnoreCase("true")) {
+    boolean terminateUsingConsole = Boolean
+        .parseBoolean(System.getProperty("bigiot.terminateUsingConsole"));
+    if (terminateUsingConsole) {
       System.out
           .println(">>>>>>  Terminate SmartSantander Provider by pressing ENTER  <<<<<<");
       Scanner keyboard = new Scanner(System.in);
