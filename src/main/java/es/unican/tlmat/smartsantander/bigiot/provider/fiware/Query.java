@@ -124,7 +124,7 @@ public class Query {
     }
   }
 
-  public void withinAreaFilter(double latitude, double longitude, int radius) {
+  public void withinAreaFilter(double latitude, double longitude, long radius) {
     checkAndCreateExpression();
     expression.georel = String.format("near;maxDistance:%d", radius);
     expression.geometry = "point";

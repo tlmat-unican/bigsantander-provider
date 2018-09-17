@@ -137,8 +137,8 @@ public abstract class GenericOffering implements AccessRequestHandler {
                             Double
                                 .parseDouble((String) inputData
                                     .get(InputOutputData.LONGITUDE.toString())),
-                            Integer
-                                .parseUnsignedInt((String) inputData
+                            (long)Double
+                                .parseDouble((String) inputData
                                     .get(InputOutputData.RADIUS.toString())));
     }
 
