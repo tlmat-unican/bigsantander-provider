@@ -40,11 +40,6 @@ public abstract class GenericOffering implements AccessRequestHandler {
   private static final Logger log =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  private static String USER_AGENT = "BIG IoT/1.0 BigSantander Provider/1.0";
-  // private static String ORION_HOST = "BASE_URL_ORION/v2/op/query";
-  private static String ORION_HOST =
-      "http://orion-cb.tlmat.synchronicity-iot.eu:1026/v2/op/query";
-
   // TODO: JSON numbers as strings
   // JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS
   protected static final ObjectMapper mapper = new ObjectMapper();
