@@ -198,10 +198,12 @@ public class EmbeddedSpark extends EmbededdedRouteBasedServer {
                  req.session().maxInactiveInterval());
 
       logger
-          .info("Access Request received: {}, {}, {}",
+          .info("Access Request received: {}, {}, {}, {}, {}",
                 req.pathInfo(),
                 req.ip(),
-                req.queryParams());
+                req.raw().getRemotePort(),
+                req.queryParams(),
+                req.userAgent());
 
       final String authHeader = req.headers("Authorization");
       if (!checkAccessToken(authorizationRequired,
