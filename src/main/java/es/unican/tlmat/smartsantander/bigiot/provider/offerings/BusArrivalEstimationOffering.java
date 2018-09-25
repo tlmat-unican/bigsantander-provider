@@ -24,6 +24,8 @@ public class BusArrivalEstimationOffering extends GenericOffering {
   private static final Logger log =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+  private static String UNKNOWN = "Unknown";
+
   private static String DESCRIPTION = "SantanderBusArrivalEstimationOffering";
   private static String NAME = "Santander Bus Arrival Estimation Offering";
   private static String CATEGORY = "urn:big-iot:BusCategory";
@@ -116,15 +118,21 @@ public class BusArrivalEstimationOffering extends GenericOffering {
 
   private Map<String, String>
       sendOrionQueryForIdNameDuple(Query query) throws IOException {
-    query.addAttributes(Arrays.asList("id", "name"));
+    query
+        .addAttributes(Arrays
+            .asList(InputOutputData.ID.getName(),
+                    InputOutputData.NAME.getName()));
     ArrayNode jsonStops = getOrionHttpClient().postQuery(query);
+    // @formatter:off
     return StreamSupport
         .stream(jsonStops.spliterator(), true)
-        .map(e -> new SimpleImmutableEntry<>(e.get("id").asText(),
-                                             e.get("name").asText()))
+        .map(e -> new SimpleImmutableEntry<>(
+            e.at(InputOutputData.ID.getFiwareJsonPath()).asText(),
+            e.at(InputOutputData.NAME.getFiwareJsonPath()).asText()))
         .collect(Collectors
             .toMap(SimpleImmutableEntry::getKey,
                    SimpleImmutableEntry::getValue));
+    // @formatter:on
   }
 
   private Map<String, StopInformation>
@@ -140,12 +148,13 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     // @formatter:off
     return StreamSupport
         .stream(jsonStops.spliterator(), true)
-        .map(e -> new SimpleImmutableEntry<>(e.get("id").asText(),
+        .map(e -> new SimpleImmutableEntry<>(
+            e.at(InputOutputData.ID.getFiwareJsonPath()).asText(),
             new StopInformation(
-                  e.at(InputOutputData.ID.getFiwareJsonPath()).asText(),
-                  e.at(InputOutputData.NAME.getFiwareJsonPath()).asText(),
-                  e.at(InputOutputData.LATITUDE.getFiwareJsonPath()).asDouble(),
-                  e.at(InputOutputData.LONGITUDE.getFiwareJsonPath()).asDouble())))
+                e.at(InputOutputData.ID.getFiwareJsonPath()).asText(),
+                e.at(InputOutputData.NAME.getFiwareJsonPath()).asText(),
+                e.at(InputOutputData.LATITUDE.getFiwareJsonPath()).asDouble(),
+                e.at(InputOutputData.LONGITUDE.getFiwareJsonPath()).asDouble())))
         .collect(Collectors
             .toMap(SimpleImmutableEntry::getKey,
                    SimpleImmutableEntry::getValue));
@@ -181,15 +190,16 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     if (stopInfo != null) {
       rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), stopInfo.getName());
       rootNode.put(InputOutputData.LATITUDE.getName(), stopInfo.getLatitude());
-      rootNode.put(InputOutputData.LONGITUDE.getName(), stopInfo.getLongitude());
+      rootNode
+          .put(InputOutputData.LONGITUDE.getName(), stopInfo.getLongitude());
     } else {
-      rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), "Unknown");
+      rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), UNKNOWN);
     }
 
     // Retrieve bus line name
     String lineId =
         rootNode.get(InputOutputData.BUS_LINE_ID.getName()).asText();
-    String lineName = Optional.ofNullable(lines.get(lineId)).orElse("Unknown");
+    String lineName = Optional.ofNullable(lines.get(lineId)).orElse(UNKNOWN);
     rootNode.put(InputOutputData.BUS_LINE_NAME.getName(), lineName);
 
     return rootNode;
