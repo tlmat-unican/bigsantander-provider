@@ -73,7 +73,7 @@ public enum InputOutputData {
       "load",
       "proposed:roadLoadEstimation",
       ValueType.NUMBER,
-      "/load"),
+      "/roadLoad"),
   // Weather Observed (WeatherObserved, AirQualityObserved)
   WEATHER_TEMPERATURE(
       "temperature",
