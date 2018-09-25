@@ -6,6 +6,7 @@ import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,6 +28,7 @@ public class BusArrivalEstimationOffering extends GenericOffering {
   private static String NAME = "Santander Bus Arrival Estimation Offering";
   private static String CATEGORY = "urn:big-iot:BusCategory";
 
+  // Doesn't have location, so we have to query per stop
   private static String FIWARE_TYPE = "BusArrivalEstimation";
 
   private static List<InputOutputData> INPUT_DATA = Arrays
@@ -50,7 +52,38 @@ public class BusArrivalEstimationOffering extends GenericOffering {
               InputOutputData.BUS_LINE_ID,
               InputOutputData.BUS_STOP_TIME_TO_ARRIVAL);
 
-  private Map<String, String> stops;
+  private static class StopInformation {
+    private String id;
+    private String name;
+    private double latitude;
+    private double longitude;
+
+    public StopInformation(String id, String name, double latitude,
+        double longitude) {
+      this.id = id;
+      this.name = name;
+      this.latitude = latitude;
+      this.longitude = longitude;
+    }
+
+    public String getId() {
+      return id;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public double getLatitude() {
+      return latitude;
+    }
+
+    public double getLongitude() {
+      return longitude;
+    }
+  }
+
+  private Map<String, StopInformation> stops;
   private Map<String, String> lines;
 
   protected BusArrivalEstimationOffering(OrionHttpClient orion) {
@@ -63,15 +96,20 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     BusArrivalEstimationOffering offering =
         new BusArrivalEstimationOffering(orion);
     offering.setStops();
+
+    offering.stops.forEach((k, v) -> System.out.println(k + "   " + v));
+
     offering.setLines();
 
     return offering;
   }
 
+  // Does have location
   private void setStops() throws IOException {
-    this.stops = sendOrionQueryForIdNameDuple(new Query("BusStop"));
+    this.stops = sendOrionQueryForLocation(new Query("BusStop"));
   }
 
+  // Does not have location
   private void setLines() throws IOException {
     this.lines = sendOrionQueryForIdNameDuple(new Query("BusLine"));
   }
@@ -87,6 +125,31 @@ public class BusArrivalEstimationOffering extends GenericOffering {
         .collect(Collectors
             .toMap(SimpleImmutableEntry::getKey,
                    SimpleImmutableEntry::getValue));
+  }
+
+  private Map<String, StopInformation>
+      sendOrionQueryForLocation(Query query) throws IOException {
+    query
+        .addAttributes(GenericOffering
+            .getParentFiwareFieldFromJsonPath(Arrays
+                .asList(InputOutputData.ID,
+                        InputOutputData.NAME,
+                        InputOutputData.LATITUDE,
+                        InputOutputData.LONGITUDE)));
+    ArrayNode jsonStops = getOrionHttpClient().postQuery(query);
+    // @formatter:off
+    return StreamSupport
+        .stream(jsonStops.spliterator(), true)
+        .map(e -> new SimpleImmutableEntry<>(e.get("id").asText(),
+            new StopInformation(
+                  e.at(InputOutputData.ID.getFiwareJsonPath()).asText(),
+                  e.at(InputOutputData.NAME.getFiwareJsonPath()).asText(),
+                  e.at(InputOutputData.LATITUDE.getFiwareJsonPath()).asDouble(),
+                  e.at(InputOutputData.LONGITUDE.getFiwareJsonPath()).asDouble())))
+        .collect(Collectors
+            .toMap(SimpleImmutableEntry::getKey,
+                   SimpleImmutableEntry::getValue));
+    // @formatter:on
   }
 
   @Override
@@ -114,12 +177,20 @@ public class BusArrivalEstimationOffering extends GenericOffering {
     // Retrieve bus stop name
     String stopId =
         rootNode.get(InputOutputData.BUS_STOP_ID.getName()).asText();
-    rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), stops.get(stopId));
+    StopInformation stopInfo = stops.get(stopId);
+    if (stopInfo != null) {
+      rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), stopInfo.getName());
+      rootNode.put(InputOutputData.LATITUDE.getName(), stopInfo.getLatitude());
+      rootNode.put(InputOutputData.LONGITUDE.getName(), stopInfo.getLongitude());
+    } else {
+      rootNode.put(InputOutputData.BUS_STOP_NAME.getName(), "Unknown");
+    }
 
     // Retrieve bus line name
     String lineId =
         rootNode.get(InputOutputData.BUS_LINE_ID.getName()).asText();
-    rootNode.put(InputOutputData.BUS_LINE_NAME.getName(), lines.get(lineId));
+    String lineName = Optional.ofNullable(lines.get(lineId)).orElse("Unknown");
+    rootNode.put(InputOutputData.BUS_LINE_NAME.getName(), lineName);
 
     return rootNode;
   }

@@ -5,6 +5,7 @@ import org.eclipse.bigiot.lib.model.BigIotTypes.ValueType;
 public enum InputOutputData {
   // Generic
   ID("id", "schema:id", ValueType.TEXT, "/id"),
+  NAME("name", "schema:id", ValueType.TEXT, "/name"),
   LONGITUDE(
       "longitude",
       "schema:longitude",
