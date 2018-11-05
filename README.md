@@ -1,4 +1,6 @@
-# SmartSantander BIG-IoT Provider
+# BigSantander Provider
+
+BigSantander is one of the selected [BIG-IoT](http://big-iot.eu/) OC2 proposals. This extension integrates several Mobility and Environment-related data sources as new offerings at the BIG-IoT Marketplace both from the [SmartSantander](http://www.smartsantander.eu/) and [Open Data Santander](http://datos.santander.es/) platforms.
 
 ## Compile
 
