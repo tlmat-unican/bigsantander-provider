@@ -119,6 +119,7 @@ public class ProviderSpark extends Provider {
     server =
         new EmbeddedSpark(localDomain, localPort, Constants.DEFAULT_BASE_ROUTE,
                           ServerOptionsSpark.defaultOptions);
+
     server.start();
 
     setBaseUrl(new StringBuilder()
@@ -167,9 +168,6 @@ public class ProviderSpark extends Provider {
       sb.append("/").append(baseRoute);
     }
     setBaseUrl(sb.toString());
-
-
-
   }
 
   /**

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.bigiot.lib.ProviderSpark;
+import org.eclipse.bigiot.lib.embeddedspark.EmbeddedSpark;
 import org.eclipse.bigiot.lib.exceptions.IncompleteOfferingDescriptionException;
 import org.eclipse.bigiot.lib.exceptions.NotRegisteredException;
 import org.eclipse.bigiot.lib.offering.Endpoints;
@@ -47,6 +48,11 @@ public class Provider {
             .setKeyStorePassword(config.getKeyStorePassword())
             .build()
             .authenticate(config.getProviderSecret());
+
+    // Either enable it here
+    // Using the static caller/constructor in EmbeddedSpark class it didn't work
+    // as expected
+    ((EmbeddedSpark)providerSpark.getEmbeddedServer()).enableCorsAll();
   }
 
   public void

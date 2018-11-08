@@ -6,7 +6,7 @@ BigSantander is one of the selected [BIG-IoT](http://big-iot.eu/) OC2 proposals.
 
 Just use maven.
 ```
-mvn clean package
+$ mvn clean package
 ```
 
 ## Installation
