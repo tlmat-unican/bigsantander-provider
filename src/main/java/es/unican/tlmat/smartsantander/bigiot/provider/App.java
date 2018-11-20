@@ -15,6 +15,7 @@ import es.unican.tlmat.smartsantander.bigiot.provider.offerings.AirPollutionSens
 import es.unican.tlmat.smartsantander.bigiot.provider.offerings.AtmosphericPressureSensorOffering;
 import es.unican.tlmat.smartsantander.bigiot.provider.offerings.BikeSharingStationsOffering;
 import es.unican.tlmat.smartsantander.bigiot.provider.offerings.BusArrivalEstimationOffering;
+import es.unican.tlmat.smartsantander.bigiot.provider.offerings.BusesLocationOffering;
 import es.unican.tlmat.smartsantander.bigiot.provider.offerings.NoiseSensorsOffering;
 import es.unican.tlmat.smartsantander.bigiot.provider.offerings.ParkingSpaceAvailabilityOffering;
 import es.unican.tlmat.smartsantander.bigiot.provider.offerings.RelativeHumiditySensorsOffering;
@@ -75,6 +76,7 @@ public class App {
     smsProvider.registerOffering(BikeSharingStationsOffering.create(orion));
     smsProvider.registerOffering(TrafficConditionsOffering.create(orion));
     smsProvider.registerOffering(BusArrivalEstimationOffering.create(orion));
+    smsProvider.registerOffering(BusesLocationOffering.create(orion));
     smsProvider.registerOffering(NoiseSensorsOffering.create(orion));
     smsProvider.registerOffering(TemperatureSensorsOffering.create(orion));
     smsProvider.registerOffering(RelativeHumiditySensorsOffering.create(orion));
