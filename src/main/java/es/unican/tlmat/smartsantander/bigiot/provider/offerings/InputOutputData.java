@@ -151,6 +151,22 @@ public enum InputOutputData {
       SchemaNamespace.PROPOSED.entity("busTimeToArrival"),
       ValueType.TEXT, // ISO8601 timing format
       "/remainingTimes/0"),
+  // Bus Location
+  BUS_VEHICLE_ID(
+      "busId",
+      SchemaNamespace.MOBILITY.entity("hasBusId"),
+      ValueType.TEXT,
+      "/id"),
+  BUS_VEHICLE_SPEED(
+      "busSpeed",
+      SchemaNamespace.MOBILITY.entity("measuredSpeed"),
+      ValueType.NUMBER,
+      "/speed"),
+  BUS_VEHICLE_LINE(
+      "busLine",
+      SchemaNamespace.MOBILITY.entity("hasBusLineNumber"),
+      ValueType.NUMBER,
+      "/areaServed"),
   NULL("null", "null", ValueType.NUMBER, InputOutputData.NULL_PATH);
 
   private final String name;
