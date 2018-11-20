@@ -99,8 +99,6 @@ public class BusArrivalEstimationOffering extends GenericOffering {
         new BusArrivalEstimationOffering(orion);
     offering.setStops();
 
-    offering.stops.forEach((k, v) -> System.out.println(k + "   " + v));
-
     offering.setLines();
 
     return offering;
@@ -204,5 +202,4 @@ public class BusArrivalEstimationOffering extends GenericOffering {
 
     return rootNode;
   }
-
 }
